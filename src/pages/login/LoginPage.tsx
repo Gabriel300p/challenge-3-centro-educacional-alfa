@@ -1,5 +1,5 @@
 import Logo from "@/assets/logo-vertical.svg";
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Lock, User } from "lucide-react";
 import { useState } from "react";
@@ -116,12 +116,21 @@ export function LoginPage() {
             </div>
 
             {/* Botão Login */}
-            <Button
-              type="submit"
-              className="w-full py-4 text-base font-semibold bg-primary text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] mt-3"
+            <a
+              href="/comunicacoes"
+              className={buttonVariants({
+                variant: "default",
+                className: "w-full",
+              })}
             >
+              {/* <Button
+                // type="submit"
+                className="w-full py-4 text-base font-semibold bg-primary text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] mt-3"
+              >
+                Login
+              </Button> */}
               Login
-            </Button>
+            </a>
           </form>
         </div>
       </div>
