@@ -88,8 +88,8 @@ export function ComunicacoesPage() {
           size="default"
           className="flex items-center gap-1.5 px-3.5 py-3 rounded-md hover:opacity-80 transition-opacity duration-300"
         >
-          <PlusCircleIcon size={32} weight="fill" />
-          Nova Comunicação
+          <PlusCircleIcon weight="fill" className="size-5" />
+          <span className="hidden sm:block">Nova Comunicação</span>
         </Button>
       </div>
       <Divider />
