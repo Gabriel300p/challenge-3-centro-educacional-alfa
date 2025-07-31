@@ -1,38 +1,5 @@
 import type { Comunicacao, ComunicacaoForm } from "@/types";
-
-// Mock data para simulação
-const mockComunicacoes: Comunicacao[] = [
-  {
-    id: "1",
-    titulo: "Reunião de Pais e Mestres",
-    autor: "João Silva",
-    tipo: "Comunicado",
-    descricao:
-      "Reunião agendada para discussão do desenvolvimento acadêmico dos alunos.",
-    dataCriacao: new Date("2024-01-15"),
-    dataAtualizacao: new Date("2024-01-15"),
-  },
-  {
-    id: "2",
-    titulo: "Alteração no Horário",
-    autor: "Maria Santos",
-    tipo: "Aviso",
-    descricao:
-      "Informamos que haverá alteração no horário das aulas na próxima semana.",
-    dataCriacao: new Date("2024-01-10"),
-    dataAtualizacao: new Date("2024-01-12"),
-  },
-  {
-    id: "3",
-    titulo: "Festa Junina 2024",
-    autor: "Pedro Costa",
-    tipo: "Comunicado",
-    descricao:
-      "Convite para a tradicional Festa Junina da escola. Traga toda a família!",
-    dataCriacao: new Date("2024-01-05"),
-    dataAtualizacao: new Date("2024-01-08"),
-  },
-];
+import mockComunicacoes from "./data";
 
 // Simula delay de rede
 const simulateDelay = (ms: number = 500) =>

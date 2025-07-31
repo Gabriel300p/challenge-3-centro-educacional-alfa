@@ -51,9 +51,24 @@ export const createColumns = ({
     ),
     cell: ({ row }) => {
       const tipo = row.getValue("tipo") as string;
+
+      // Definir cores baseadas no tipo
+      const getTypeStyles = (tipo: string) => {
+        switch (tipo) {
+          case "Comunicado":
+            return "bg-sky-100 text-sky-700";
+          case "Aviso":
+            return "bg-yellow-100 text-yellow-700";
+        }
+      };
+
       return (
         <div className="flex justify-center">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">
+          <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getTypeStyles(
+              tipo
+            )}`}
+          >
             {tipo}
           </span>
         </div>
@@ -108,7 +123,7 @@ export const createColumns = ({
             aria-label="Editar comunicação"
             onClick={() => onEdit(comunicacao)}
           >
-            <PencilSimpleLineIcon size={24} weight="fill" />
+            <PencilSimpleLineIcon className="size-5" weight="fill" />
           </Button>
           <Button
             variant="ghost"
@@ -117,7 +132,7 @@ export const createColumns = ({
             aria-label="Excluir comunicação"
             onClick={() => onDelete(comunicacao)}
           >
-            <XCircleIcon size={24} weight="fill" />
+            <XCircleIcon weight="fill" className="size-5" />
           </Button>
         </div>
       );

@@ -58,14 +58,14 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full">
-      <div className="">
+      <div className="border rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="min-w-[120px]">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell key={cell.id} className="min-w-[120px] text-sm">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -108,7 +108,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <Pagination table={table} />
+      <div className="mt-4">
+        <Pagination table={table} />
+      </div>
     </div>
   );
 }

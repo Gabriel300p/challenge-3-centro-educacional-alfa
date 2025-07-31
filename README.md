@@ -1,69 +1,271 @@
-# React + TypeScript + Vite
+# Centro Educacional Alfa - Sistema de Comunicações
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 📋 Sobre o Projeto
 
-Currently, two official plugins are available:
+Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development e consiste em uma aplicação web responsiva para gerenciamento de comunicações educacionais. O sistema permite que professores e administradores criem, editem e gerenciem postagens e avisos para a comunidade escolar.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎯 Objetivos
 
-## Expanding the ESLint configuration
+Desenvolver uma interface gráfica robusta, intuitiva e eficiente utilizando React, proporcionando uma experiência de usuário excelente tanto para professores quanto para estudantes na gestão de comunicações educacionais.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Funcionalidades Implementadas
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### 🔐 Autenticação
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- **Página de Login**: Interface de autenticação para professores
+- **Controle de acesso**: Proteção de rotas administrativas
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 📝 Gestão de Comunicações
+
+- **Lista de Postagens**: Visualização de todas as comunicações com título, autor e descrição
+- **Busca e Filtros**: Campo de busca para filtrar comunicações por palavras-chave
+- **Criação de Postagens**: Formulário para criação de novas comunicações
+- **Edição de Postagens**: Formulário para edição de comunicações existentes
+- **Exclusão de Postagens**: Funcionalidade para remover comunicações
+
+### 📱 Interface Responsiva
+
+- **Design Adaptativo**: Interface otimizada para desktop, tablet e mobile
+- **Componentes Reutilizáveis**: Sistema de design consistente
+- **Experiência de Usuário**: Interface intuitiva e acessível
+
+## 🛠️ Tecnologias Utilizadas
+
+### Core
+
+- **React 19.1.0**: Biblioteca principal para construção da interface
+- **TypeScript**: Tipagem estática para maior segurança e produtividade
+- **Vite 7.0.4**: Build tool moderna e rápida
+
+### Estilização
+
+- **TailwindCSS 4.1.11**: Framework CSS utilitário para estilização
+- **Radix UI**: Componentes acessíveis e customizáveis
+- **Phosphorn Icons**: Biblioteca de ícones
+
+### Gerenciamento de Estado
+
+- **React Query 5.83.0**: Gerenciamento de estado do servidor e cache
+- **React Hooks**: Gerenciamento de estado local
+
+### Roteamento
+
+- **React Router DOM 7.7.1**: Navegação entre páginas
+
+### Outras Bibliotecas
+
+- **React Table 8.21.3**: Tabelas interativas e responsivas
+- **Date-fns**: Manipulação e formatação de datas
+
+## 🏗️ Arquitetura da Aplicação
+
+### Estrutura de Pastas
+
+```
+src/
+├── components/           # Componentes reutilizáveis
+│   ├── ui/              # Componentes básicos de UI
+│   ├── layout/          # Componentes de layout
+│   └── common/          # Componentes comuns
+├── pages/               # Páginas da aplicação
+│   ├── comunicacoes/    # Módulo de comunicações
+│   │   ├── components/  # Componentes específicos
+│   │   ├── hooks/       # Hooks customizados
+│   │   └── services/    # Serviços e dados
+│   └── LoginPage.tsx    # Página de login
+├── types/               # Definições de tipos TypeScript
+├── lib/                 # Utilitários e configurações
+└── assets/              # Recursos estáticos
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Padrões Arquiteturais
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Feature-Based Architecture**: Organização por funcionalidades
+- **Component Composition**: Componentes reutilizáveis e compostos
+- **Custom Hooks**: Lógica de negócio encapsulada
+- **Service Layer**: Camada de serviços para integração com dados
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 Setup Inicial
+
+### Pré-requisitos
+
+- Node.js 18+
+- npm ou yarn
+
+### Instalação
+
+```bash
+# Clone o repositório
+git clone https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa.git
+
+# Navegue até o diretório
+cd challenge-3-centro-educacional-alfa
+
+# Instale as dependências
+npm install
+
+# Execute o projeto em modo de desenvolvimento
+npm run dev
 ```
+
+### Scripts Disponíveis
+
+```bash
+npm run dev      # Executa em modo de desenvolvimento
+npm run build    # Gera build de produção
+npm run preview  # Visualiza build de produção
+npm run lint     # Executa linting do código
+```
+
+## 💻 Guia de Uso
+
+### 1. Acesso ao Sistema
+
+- Acesse a aplicação através da rota `/login`
+- Use as credenciais de professor para fazer login
+- Após autenticação, você será redirecionado para a página de comunicações
+
+### 2. Visualização de Comunicações
+
+- A página principal exibe todas as comunicações em formato de tabela
+- Use o campo de busca para filtrar por título, autor, tipo ou descrição
+- Visualize informações como título, autor, tipo, datas de criação e atualização
+
+### 3. Criação de Comunicações
+
+- Clique no botão "Nova Comunicação"
+- Preencha os campos obrigatórios: título, autor, tipo e descrição
+- Clique em "Adicionar" para salvar
+
+### 4. Edição de Comunicações
+
+- Clique no ícone de edição na linha da comunicação desejada
+- Modifique os campos necessários
+- Clique em "Editar" para salvar as alterações
+
+### 5. Exclusão de Comunicações
+
+- Clique no ícone de exclusão na linha da comunicação desejada
+- Confirme a exclusão no modal de confirmação
+
+## 🎨 Sistema de Design
+
+### Paleta de Cores
+
+- **Primária**: Tons de azul para elementos principais
+- **Secundária**: Cinza para elementos neutros
+- **Status**: Verde, amarelo e vermelho para estados específicos
+
+### Tipografia
+
+- **Fonte Principal - Inter**: Sistema padrão otimizada para legibilidade
+- **Hierarquia**: Diferentes pesos e tamanhos para organização visual
+
+### Componentes
+
+- **Botões**: Variações de tamanho e estilo
+- **Formulários**: Campos consistentes e validação visual
+- **Tabelas**: Layout responsivo com ordenação e paginação
+- **Modais**: Sobreposições para ações importantes
+
+### Operações CRUD
+
+- **GET /comunicacoes**: Buscar todas as comunicações
+- **POST /comunicacoes**: Criar nova comunicação
+- **PUT /comunicacoes/:id**: Atualizar comunicação existente
+- **DELETE /comunicacoes/:id**: Excluir comunicação
+
+### Gerenciamento de Estado
+
+- Utilização do React Query para cache e sincronização
+- Estados de loading, error e success
+- Invalidação automática após mutações
+
+## 📱 Responsividade
+
+### Breakpoints
+
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: > 1024px
+
+### Adaptações por Dispositivo
+
+- **Mobile**: Layout em coluna única, navegação simplificada
+- **Tablet**: Layout híbrido, tabelas com scroll horizontal
+- **Desktop**: Layout completo, todas as funcionalidades visíveis
+
+## 🔒 Segurança e Autenticação
+
+### Controle de Acesso
+
+- Rotas protegidas para funcionalidades administrativas
+- Validação de autenticação em componentes sensíveis
+- Redirecionamento automático para login quando necessário
+
+### Validação de Dados
+
+- Validação de formulários no frontend
+- Sanitização de entradas do usuário
+- Feedback visual para erros de validação
+
+## 🧪 Testes e Qualidade
+
+### Ferramentas de Qualidade
+
+- **ESLint**: Análise estática de código
+- **TypeScript**: Verificação de tipos
+- **Prettier**: Formatação consistente de código
+
+### Boas Práticas
+
+- Componentização adequada
+- Hooks customizados para lógica reutilizável
+- Tipagem forte com TypeScript
+- Convenções de nomenclatura consistentes
+
+## 🚀 Deploy e Produção
+
+### Build de Produção
+
+```bash
+npm run build
+```
+
+### Otimizações
+
+- Code splitting automático
+- Compressão de assets
+- Otimização de imagens
+- Minificação de código
+
+## 📝 Considerações Técnicas
+
+### Performance
+
+- Lazy loading de componentes
+- Memoização de componentes pesados
+- Otimização de re-renders
+- Cache inteligente com React Query
+
+### Acessibilidade
+
+- Componentes Radix UI com acessibilidade nativa
+- Labels apropriados em formulários
+- Navegação por teclado
+- Contraste adequado de cores
+
+### Manutenibilidade
+
+- Código modular e reutilizável
+- Documentação inline
+- Estrutura de pastas organizada
+- Separação clara de responsabilidades
+
+## 👥 Equipe de Desenvolvimento
+
+Este projeto foi desenvolvido como parte do Tech Challenge da Pós-Tech Frontend Engineering, focando na criação de uma solução robusta e escalável para o gerenciamento de comunicações educacionais.
+
+## 📄 Licença
+
+Este projeto é desenvolvido para fins educacionais como parte do programa de Pós-Graduação em Full Stack Development.

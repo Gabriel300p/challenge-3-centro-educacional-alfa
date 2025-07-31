@@ -151,7 +151,6 @@ export function ModalComunicacao({
               value={formData.descricao}
               onChange={(e) => handleInputChange("descricao", e.target.value)}
               rows={4}
-              required
             />
           </div>
 
@@ -171,12 +170,7 @@ export function ModalComunicacao({
             </Button>
             <Button
               type="submit"
-              disabled={
-                isLoading ||
-                !formData.titulo ||
-                !formData.autor ||
-                !formData.descricao
-              }
+              disabled={isLoading || !formData.titulo || !formData.autor}
             >
               {isEditing ? (
                 <PencilSimpleLineIcon
