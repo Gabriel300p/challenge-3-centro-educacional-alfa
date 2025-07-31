@@ -4,10 +4,6 @@
 
 Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development e consiste em uma aplicação web responsiva para gerenciamento de comunicações educacionais. O sistema permite que professores e administradores criem, editem e gerenciem postagens e avisos para a comunidade escolar.
 
-## 🎯 Objetivos
-
-Desenvolver uma interface gráfica robusta, intuitiva e eficiente utilizando React, proporcionando uma experiência de usuário excelente tanto para professores quanto para estudantes na gestão de comunicações educacionais.
-
 ## ✨ Funcionalidades Implementadas
 
 ### 🔐 Autenticação

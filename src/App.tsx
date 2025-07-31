@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { MainLayout } from "./components/layout";
 import { ComunicacoesPage } from "./pages/comunicacoes/ComunicacoesPage";
-import { LoginPage } from "./pages/LoginPage";
+import { LoginPage } from "./pages/login/LoginPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
