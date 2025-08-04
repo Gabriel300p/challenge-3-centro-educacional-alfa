@@ -2,8 +2,12 @@
 // Only exports frequently used components for clean imports
 
 // Core App Components
-export { ErrorBoundary } from "./ErrorBoundary";
-export { FullPageLoader, LoadingSpinner, PageLoader } from "./LoadingSpinner";
+export {
+  FullPageLoader,
+  LoadingSpinner,
+  PageLoader,
+} from "./common/LoadingSpinner";
+export { ErrorBoundary } from "./errors/ErrorBoundary";
 
 // Layout Components (frequently used)
 export { MainLayout } from "./layout/MainLayout";
