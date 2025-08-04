@@ -1,45 +1,24 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
-} from "react-router-dom";
-import { MainLayout } from "./components/layout";
-import { ComunicacoesPage } from "./pages/comunicacoes/ComunicacoesPage";
-import { LoginPage } from "./pages/login/LoginPage";
+import { AppProviders } from "@app/providers";
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+// Import the generated route tree
+import { routeTree } from "./routeTree.gen";
+
+// Create a new router instance
+const router = createRouter({ routeTree });
+
+// Register the router instance for type safety
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Routes>
-          {/* Rota de login sem layout */}
-          <Route path="/login" element={<LoginPage />} />
-
-          {/* Rotas com layout */}
-          <Route
-            path="/comunicacoes"
-            element={
-              <MainLayout>
-                <ComunicacoesPage />
-              </MainLayout>
-            }
-          />
-
-          <Route path="/" element={<Navigate to="/login" replace />} />
-        </Routes>
-      </Router>
-    </QueryClientProvider>
+    <AppProviders>
+      <RouterProvider router={router} />
+    </AppProviders>
   );
 }
 

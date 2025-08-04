@@ -1,23 +1,84 @@
-# Centro Educacional Alfa - Sistema de Comunicações
+# 🎓 Centro Educacional Alfa
 
-## 📋 Sobre o Projeto
+Sistema de gestão educacional moderno e escalável, desenvolvido com as melhores práticas de frontend.
 
-Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development e consiste em uma aplicação web responsiva para gerenciamento de comunicações educacionais. O sistema permite que professores e administradores criem, editem e gerenciem postagens e avisos para a comunidade escolar.
+## 🚀 Tecnologias
 
-## ✨ Funcionalidades Implementadas
+- **React 19** - Biblioteca para interfaces de usuário
+- **TypeScript** - Tipagem estática
+- **Vite** - Build tool e dev server
+- **TanStack Query** - Gerenciamento de estado server
+- **Zustand** - Gerenciamento de estado client
+- **React Hook Form + Zod** - Formulários e validação
+- **Tailwind CSS** - Estilização
+- **Shadcn/ui** - Componentes base
+- **Framer Motion** - Animações
+- **Vitest + Testing Library** - Testes
 
-### 🔐 Autenticação
+## 📁 Estrutura do Projeto
 
-- **Página de Login**: Interface de autenticação para professores
-- **Controle de acesso**: Proteção de rotas administrativas
+```
+src/
+├── app/                    # Configuração da aplicação
+│   ├── providers/         # Providers globais (React Query, etc)
+│   └── store/            # Stores Zustand
+├── shared/               # Recursos compartilhados
+│   ├── api/              # Cliente API e configurações
+│   ├── components/       # Componentes reutilizáveis
+│   ├── constants/        # Constantes da aplicação
+│   ├── hooks/           # Hooks customizados
+│   ├── schemas/         # Schemas Zod para validação
+│   └── types/           # Tipos TypeScript globais
+├── features/            # Features organizadas por domínio
+│   ├── auth/           # Autenticação
+│   └── comunicacoes/   # Módulo de comunicações
+└── components/         # Componentes UI base (legado)
+```
 
-### 📝 Gestão de Comunicações
+## 🛠️ Scripts Disponíveis
 
-- **Lista de Postagens**: Visualização de todas as comunicações com título, autor e descrição
-- **Busca e Filtros**: Campo de busca para filtrar comunicações por palavras-chave
-- **Criação de Postagens**: Formulário para criação de novas comunicações
-- **Edição de Postagens**: Formulário para edição de comunicações existentes
-- **Exclusão de Postagens**: Funcionalidade para remover comunicações
+```bash
+# Desenvolvimento
+pnpm dev              # Inicia servidor de desenvolvimento
+pnpm build            # Build para produção
+pnpm preview          # Preview do build
+
+# Qualidade de código
+pnpm lint             # Executa ESLint
+pnpm lint:fix         # Corrige problemas automaticamente
+pnpm type-check       # Verifica tipos TypeScript
+
+# Testes
+pnpm test             # Roda testes em modo watch
+pnpm test:run         # Executa todos os testes
+pnpm test:coverage    # Gera relatório de cobertura
+```
+
+## 🏗️ Arquitetura e Padrões
+
+### Gerenciamento de Estado
+
+- **Zustand** para estado global da aplicação
+- **TanStack Query** para estado do servidor (cache, sincronização)
+- **React Hook Form** para estado de formulários
+
+### Validação
+
+- **Zod** para validação de schemas
+- Validação tanto no frontend quanto preparada para backend
+
+### Componentização
+
+- Componentes organizados por responsabilidade
+- Separação clara entre componentes de UI e componentes de negócio
+- Uso de composition pattern
+
+### Performance
+
+- **Code splitting** com lazy loading
+- **Bundle splitting** otimizado
+- Memoização estratégica de componentes
+- Debounce em operações de busca
 
 ### 📱 Interface Responsiva
 
