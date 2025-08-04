@@ -1,5 +1,10 @@
+import {
+  Skeleton,
+  SkeletonBox,
+  SkeletonCircle,
+  SkeletonLine,
+} from "@shared/components/ui/skeleton";
 import { motion } from "framer-motion";
-import { Skeleton, SkeletonLine, SkeletonBox, SkeletonCircle } from "@shared/components/ui/skeleton";
 
 // 🎯 Skeleton para a tabela de comunicações
 export function CommunicationTableSkeleton({ rows = 5 }: { rows?: number }) {
@@ -7,7 +12,9 @@ export function CommunicationTableSkeleton({ rows = 5 }: { rows?: number }) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-4"
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ duration: 0.3 }}
+      className="space-y-4 rounded-lg border border-slate-200 p-5"
     >
       {/* Header da tabela */}
       <div className="grid grid-cols-5 gap-4 border-b pb-2">
@@ -17,7 +24,7 @@ export function CommunicationTableSkeleton({ rows = 5 }: { rows?: number }) {
         <SkeletonLine width="90%" />
         <SkeletonLine width="50%" />
       </div>
-      
+
       {/* Linhas da tabela */}
       {Array.from({ length: rows }, (_, i) => (
         <motion.div
@@ -25,7 +32,7 @@ export function CommunicationTableSkeleton({ rows = 5 }: { rows?: number }) {
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.1 }}
-          className="grid grid-cols-5 gap-4 py-3 border-b border-gray-100"
+          className="grid grid-cols-5 gap-4 border-b border-gray-100 py-3"
         >
           <SkeletonLine width="85%" />
           <SkeletonLine width="65%" />
@@ -47,7 +54,7 @@ export function CommunicationHeaderSkeleton() {
     <motion.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="flex items-center justify-between mb-6"
+      className="mb-6 flex items-center justify-between"
     >
       <div className="space-y-2">
         <SkeletonLine width="100px" className="h-4" />
@@ -81,32 +88,32 @@ export function CommunicationModalSkeleton() {
     >
       {/* Título do modal */}
       <SkeletonLine width="200px" className="h-6" />
-      
+
       {/* Campos do formulário */}
       <div className="space-y-4">
         <div>
-          <SkeletonLine width="80px" className="h-4 mb-2" />
+          <SkeletonLine width="80px" className="mb-2 h-4" />
           <SkeletonBox width="100%" height={40} />
         </div>
-        
+
         <div>
-          <SkeletonLine width="60px" className="h-4 mb-2" />
+          <SkeletonLine width="60px" className="mb-2 h-4" />
           <SkeletonBox width="100%" height={40} />
         </div>
-        
+
         <div>
-          <SkeletonLine width="70px" className="h-4 mb-2" />
+          <SkeletonLine width="70px" className="mb-2 h-4" />
           <SkeletonBox width="100%" height={40} />
         </div>
-        
+
         <div>
-          <SkeletonLine width="90px" className="h-4 mb-2" />
+          <SkeletonLine width="90px" className="mb-2 h-4" />
           <SkeletonBox width="100%" height={120} />
         </div>
       </div>
-      
+
       {/* Botões */}
-      <div className="flex gap-3 justify-end pt-4">
+      <div className="flex justify-end gap-3 pt-4">
         <SkeletonBox width="80px" height={40} />
         <SkeletonBox width="100px" height={40} />
       </div>
@@ -117,16 +124,16 @@ export function CommunicationModalSkeleton() {
 // 🎯 Skeleton completo da página de comunicações
 export function CommunicationPageSkeleton() {
   return (
-    <div 
+    <div
       className="mx-auto space-y-6 rounded-xl bg-white p-8 shadow-lg"
       data-testid="skeleton-page"
       aria-label="Carregando página de comunicações"
     >
       <CommunicationHeaderSkeleton />
-      
+
       {/* Divider skeleton */}
       <Skeleton width="100%" height={1} className="my-6" />
-      
+
       <CommunicationSearchSkeleton />
       <CommunicationTableSkeleton />
     </div>
@@ -139,7 +146,7 @@ export function CommunicationErrorSkeleton() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex flex-col items-center justify-center py-12 space-y-4"
+      className="flex flex-col items-center justify-center space-y-4 py-12"
     >
       <SkeletonCircle size={64} />
       <SkeletonLine width="250px" className="h-6" />

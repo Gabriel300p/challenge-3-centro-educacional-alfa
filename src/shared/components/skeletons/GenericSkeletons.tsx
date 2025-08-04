@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 // 🎯 Skeleton para carregamento de rota/página - Similar ao layout real
 export function RouteSkeleton() {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-slate-100">
       {/* Breadcrumb skeleton */}
       <div className="mx-4 pt-6 md:mx-8 md:pt-8 lg:mx-16 lg:pt-12">
         <SkeletonLine width="100px" className="h-4" />
@@ -16,7 +16,7 @@ export function RouteSkeleton() {
 
       {/* Page content skeleton */}
       <main className="mx-4 py-6 md:mx-8 md:py-8 lg:mx-16 lg:py-12">
-        <div className="rounded-lg border border-gray-200 bg-white p-6">
+        <div className="rounded-lg border border-slate-200 bg-white p-6">
           {/* Header skeleton */}
           <div className="mb-6 flex items-center justify-between">
             <SkeletonLine width="150px" className="h-7" />
@@ -51,7 +51,7 @@ export function RouteSkeleton() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: i * 0.1 }}
-                className="grid grid-cols-6 gap-4 border-b border-gray-100 py-3"
+                className="grid grid-cols-6 gap-4 border-b border-slate-100 py-3"
               >
                 <SkeletonLine width="85%" className="h-4" />
                 <SkeletonLine width="70%" className="h-4" />
@@ -91,7 +91,7 @@ export function AdvancedLoadingSkeleton({
         animate={{ rotate: 360 }}
         transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
       >
-        <div className="h-16 w-16 rounded-full border-4 border-gray-200">
+        <div className="h-16 w-16 rounded-full border-4 border-slate-200">
           <div
             className="h-full w-full rounded-full border-4 border-blue-600 border-t-transparent"
             style={{
@@ -108,7 +108,7 @@ export function AdvancedLoadingSkeleton({
         animate={{ opacity: 1, y: 0 }}
         className="text-center"
       >
-        <p className="text-lg font-medium text-gray-900">
+        <p className="text-lg font-medium text-slate-900">
           {stages[currentStage] || stages[0]}
         </p>
         <div className="mt-2 flex justify-center space-x-2">
@@ -116,7 +116,7 @@ export function AdvancedLoadingSkeleton({
             <div
               key={i}
               className={`h-2 w-2 rounded-full transition-colors ${
-                i <= currentStage ? "bg-blue-600" : "bg-gray-300"
+                i <= currentStage ? "bg-blue-600" : "bg-slate-300"
               }`}
             />
           ))}
@@ -140,7 +140,7 @@ export function TableSkeleton({
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="space-y-4"
+      className="space-y-4 rounded-lg border border-slate-200 p-5"
     >
       {/* Header */}
       <div
@@ -159,7 +159,7 @@ export function TableSkeleton({
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: i * 0.1 }}
-          className={`grid gap-4 border-b border-gray-100 py-3`}
+          className={`grid gap-4 border-b border-slate-100 py-3`}
           style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
         >
           {Array.from({ length: columns - (hasActions ? 1 : 0) }, (_, j) => (

@@ -1,6 +1,7 @@
 import { PlusCircleIcon } from "@shared/components/icons";
 import { Button } from "@shared/components/ui/button";
 import Divider from "@shared/components/ui/divider";
+import { AnimatePresence, motion } from "framer-motion";
 import { useMemo } from "react";
 import {
   createColumns,
@@ -74,9 +75,19 @@ export default function ComunicacoesPage() {
   }
 
   return (
-    <div className="mx-auto space-y-6 rounded-xl bg-white p-8 shadow-lg">
-      {/* Header - renderiza imediatamente (não depende dos dados) */}
-      <div className="flex items-center justify-between">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="mx-auto space-y-6 rounded-xl bg-white p-8 shadow-lg"
+    >
+      {/* Header - renderiza imediatamente com animação */}
+      <motion.div
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="flex items-center justify-between"
+      >
         <div>
           <span className="text-primary text-sm font-medium underline">
             Acessos
@@ -91,27 +102,41 @@ export default function ComunicacoesPage() {
           <PlusCircleIcon weight="fill" className="size-5" />
           <span className="hidden sm:block">Nova Comunicação</span>
         </Button>
-      </div>
+      </motion.div>
       <Divider />
 
       {/* Content */}
       <div className="space-y-4">
-        {/* Search - renderiza imediatamente */}
-        <div className="w-full max-w-sm">
+        {/* Search - renderiza imediatamente com animação */}
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
+          className="w-full max-w-sm"
+        >
           <input
             type="text"
             placeholder="Pesquisar..."
             onChange={(e) => handleSearch(e.target.value)}
             className="focus:ring-primary focus:border-primary w-full rounded-md border border-slate-200 px-3 py-2 focus:ring-1 focus:outline-none"
           />
-        </div>
+        </motion.div>
 
-        {/* Table - mostra skeleton enquanto carrega */}
-        {isLoading ? (
-          <CommunicationTableSkeleton />
-        ) : (
-          <DataTable columns={columns} data={filteredComunicacoes} />
-        )}
+        {/* Table - transição suave entre skeleton e dados */}
+        <AnimatePresence mode="wait">
+          {isLoading ? (
+            <CommunicationTableSkeleton />
+          ) : (
+            <motion.div
+              key="table"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0.5 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <DataTable columns={columns} data={filteredComunicacoes} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Modals - No Suspense to avoid complexity */}
@@ -136,6 +161,6 @@ export default function ComunicacoesPage() {
         onConfirm={handleConfirmDelete}
         comunicacao={selectedComunicacao}
       />
-    </div>
+    </motion.div>
   );
 }

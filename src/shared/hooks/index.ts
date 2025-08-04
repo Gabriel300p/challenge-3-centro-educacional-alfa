@@ -8,8 +8,11 @@ export function useToggle(initialValue = false) {
   const setTrue = useCallback(() => setValue(true), []);
   const setFalse = useCallback(() => setValue(false), []);
 
-  return { value, toggle, setTrue, setFalse, setValue };
+  return { value, toggle, setTrue, setFalse };
 }
+
+// 🎯 Export configuration hooks
+export * from "./useLoadingConfig";
 
 export function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
