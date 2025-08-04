@@ -13,6 +13,9 @@ export { ErrorBoundary } from "./errors/ErrorBoundary";
 export { MainLayout } from "./layout/MainLayout";
 export { TopBar } from "./layout/TopBar";
 
+// 🎯 Skeletons (for loading states)
+export * from "./skeletons/GenericSkeletons";
+
 // Most Used UI Components (from design system)
 export { Button } from "./ui/button";
 export {

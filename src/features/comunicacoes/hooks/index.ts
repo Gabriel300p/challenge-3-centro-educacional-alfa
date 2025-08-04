@@ -14,7 +14,7 @@ export { useModals } from "./useModals";
 export { useSearch } from "./useSearch";
 
 /**
- * � Usage Examples:
+ * 📝 Usage Examples:
  *
  * // Basic data operations
  * import { useComunicacoes } from '@features/comunicacoes/hooks';

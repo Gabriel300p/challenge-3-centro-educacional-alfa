@@ -13,7 +13,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[];
 }
 
-// Type-safe wrapper for lazy DataTable
+// Type-safe wrapper for lazy DataTable with proper generics
 export const LazyDataTable = LazyDataTableComponent as ComponentType<
-  DataTableProps<any, any>
+  DataTableProps<unknown, unknown>
 >;

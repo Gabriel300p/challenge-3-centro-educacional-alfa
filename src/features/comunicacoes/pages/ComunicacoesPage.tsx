@@ -1,18 +1,18 @@
-import { LoadingSpinner } from "@shared/components";
 import { PlusCircleIcon } from "@shared/components/icons";
 import { Button } from "@shared/components/ui/button";
 import Divider from "@shared/components/ui/divider";
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import {
   createColumns,
   DataTable,
   ModalComunicacao,
   ModalDeleteConfirm,
 } from "../components";
+import { CommunicationTableSkeleton } from "../components/skeletons";
 import { useComunicacoes, useModals, useSearch } from "../hooks";
 import type { ComunicacaoForm } from "../types/comunicacao";
 
-// 🚀 Memoized ComunicacoesPage for performance optimization
+// ✅ Simplified ComunicacoesPage without infinite loops
 export default function ComunicacoesPage() {
   const {
     comunicacoes,
@@ -52,7 +52,7 @@ export default function ComunicacoesPage() {
     }
   };
 
-  // 🚀 Memoize columns to prevent unnecessary re-creation
+  // Memoize columns to prevent unnecessary re-creation
   const columns = useMemo(
     () =>
       createColumns({
@@ -62,15 +62,7 @@ export default function ComunicacoesPage() {
     [openEditModal, openDeleteModal],
   );
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-8">
-        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-blue-600"></div>
-        <span className="ml-2 text-gray-600">Carregando...</span>
-      </div>
-    );
-  }
-
+  // ✅ Error handling
   if (error) {
     return (
       <div className="flex items-center justify-center py-8">
@@ -83,7 +75,7 @@ export default function ComunicacoesPage() {
 
   return (
     <div className="mx-auto space-y-6 rounded-xl bg-white p-8 shadow-lg">
-      {/* Header simples */}
+      {/* Header - renderiza imediatamente (não depende dos dados) */}
       <div className="flex items-center justify-between">
         <div>
           <span className="text-primary text-sm font-medium underline">
@@ -101,8 +93,10 @@ export default function ComunicacoesPage() {
         </Button>
       </div>
       <Divider />
+
+      {/* Content */}
       <div className="space-y-4">
-        {/* Busca simples */}
+        {/* Search - renderiza imediatamente */}
         <div className="w-full max-w-sm">
           <input
             type="text"
@@ -112,34 +106,36 @@ export default function ComunicacoesPage() {
           />
         </div>
 
-        {/* Tabela */}
-        <DataTable columns={columns} data={filteredComunicacoes} />
+        {/* Table - mostra skeleton enquanto carrega */}
+        {isLoading ? (
+          <CommunicationTableSkeleton />
+        ) : (
+          <DataTable columns={columns} data={filteredComunicacoes} />
+        )}
       </div>
 
-      {/* 🚀 Lazy-loaded Modals with Suspense */}
-      <Suspense fallback={<LoadingSpinner size="sm" />}>
-        <ModalComunicacao
-          isOpen={isAddModalOpen}
-          onClose={closeAllModals}
-          onSave={handleSaveNew}
-          isEditing={false}
-        />
+      {/* Modals - No Suspense to avoid complexity */}
+      <ModalComunicacao
+        isOpen={isAddModalOpen}
+        onClose={closeAllModals}
+        onSave={handleSaveNew}
+        isEditing={false}
+      />
 
-        <ModalComunicacao
-          isOpen={isEditModalOpen}
-          onClose={closeAllModals}
-          onSave={handleSaveEdit}
-          comunicacao={selectedComunicacao}
-          isEditing={true}
-        />
+      <ModalComunicacao
+        isOpen={isEditModalOpen}
+        onClose={closeAllModals}
+        onSave={handleSaveEdit}
+        comunicacao={selectedComunicacao}
+        isEditing={true}
+      />
 
-        <ModalDeleteConfirm
-          isOpen={isDeleteModalOpen}
-          onClose={closeAllModals}
-          onConfirm={handleConfirmDelete}
-          comunicacao={selectedComunicacao}
-        />
-      </Suspense>
+      <ModalDeleteConfirm
+        isOpen={isDeleteModalOpen}
+        onClose={closeAllModals}
+        onConfirm={handleConfirmDelete}
+        comunicacao={selectedComunicacao}
+      />
     </div>
   );
 }

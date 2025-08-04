@@ -1,5 +1,6 @@
 import { useCallback, useState } from "react";
 
+// 🎯 Shared utility hooks
 export function useToggle(initialValue = false) {
   const [value, setValue] = useState(initialValue);
 
