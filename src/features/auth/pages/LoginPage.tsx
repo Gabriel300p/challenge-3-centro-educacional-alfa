@@ -7,13 +7,20 @@ import { useState } from "react";
 export function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você adicionaria a lógica de autenticação
-    console.log("Login:", { username, password, rememberMe });
+    // console.log("Login:", { username, password, rememberMe }); // Removed for production
+    setIsLoading(true);
+
+    // Simular login
+    setTimeout(() => {
+      setIsLoading(false);
+      window.location.href = "/comunicacoes";
+    }, 2000);
   };
 
   return (
@@ -120,21 +127,16 @@ export function LoginPage() {
             </div>
 
             {/* Botão Login */}
-            <a
-              href="/comunicacoes"
+            <button
+              type="submit"
+              disabled={isLoading}
               className={buttonVariants({
                 variant: "default",
                 className: "w-full",
               })}
             >
-              {/* <Button
-                // type="submit"
-                className="w-full py-4 text-base font-semibold bg-primary text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] mt-3"
-              >
-                Login
-              </Button> */}
-              Login
-            </a>
+              {isLoading ? "Entrando..." : "Login"}
+            </button>
           </form>
         </div>
       </div>

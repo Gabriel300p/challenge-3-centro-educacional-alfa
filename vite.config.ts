@@ -1,11 +1,26 @@
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { visualizer } from "rollup-plugin-visualizer";
 import { defineConfig } from "vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react(),
+    tailwindcss(),
+    // 🚀 Bundle analyzer - only in analysis mode
+    ...(process.env.ANALYZE
+      ? [
+          visualizer({
+            filename: "dist/stats.html",
+            open: true,
+            gzipSize: true,
+            brotliSize: true,
+          }),
+        ]
+      : []),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -14,7 +29,27 @@ export default defineConfig({
       "@features": path.resolve(__dirname, "./src/features"),
     },
   },
+  // 🚀 Dependency optimization
+  optimizeDeps: {
+    include: [
+      "react",
+      "react-dom",
+      "@tanstack/react-router",
+      "@tanstack/react-query",
+      "zustand",
+    ],
+    exclude: ["@tanstack/router-devtools", "@tanstack/react-query-devtools"],
+  },
+  // 🚀 Remove console.logs in production
+  esbuild: {
+    drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
+  },
   build: {
+    // 🚀 Build optimizations
+    target: "esnext",
+    minify: "esbuild",
+    cssMinify: true,
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
@@ -45,6 +80,9 @@ export default defineConfig({
 
           // 🚀 Utilities & Date Handling
           "utils-vendor": ["clsx", "class-variance-authority", "date-fns"],
+
+          // 🚀 Table functionality
+          "table-vendor": ["@tanstack/react-table"],
         },
         // 🚀 Better chunk naming for debugging
         chunkFileNames: (chunkInfo) => {
@@ -56,6 +94,11 @@ export default defineConfig({
           }
           return "assets/chunks/[name]-[hash].js";
         },
+      },
+      // 🚀 Tree-shaking optimizations
+      treeshake: {
+        preset: "recommended",
+        moduleSideEffects: false,
       },
     },
     // 🚀 Optimize chunk size

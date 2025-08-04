@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 export function TopBar() {
   const handleLogout = () => {
     // Implementar lógica de logout aqui
-    console.log("Logout realizado");
+    // console.log("Logout realizado"); // Removed for production
     // Redirecionar para a página de login ou limpar o estado de autenticação
     window.location.href = "/login";
   };
