@@ -1,13 +1,27 @@
-// 🎯 Strategic Hook Exports for Comunicacoes Feature
-// Only exports hooks that are commonly used together
+// 🎯 Comunicacoes Hooks - Public API
+// Centralized exports for all comunicacoes-related hooks
 
-// Main CRUD hooks (often used together in components)
+// Data fetching & mutations
 export { useComunicacoes } from "./useComunicacoes";
+
+// Cache management & optimization
+export { useComunicacoesCache, useQueryState } from "./useComunicacoesCache";
+
+// UI state management
 export { useModals } from "./useModals";
 
-// Utility hooks (can be imported separately)
+// Search & filtering
 export { useSearch } from "./useSearch";
 
-// 📝 For better performance and explicit dependencies, prefer direct imports:
-// import { useComunicacoes } from '@features/comunicacoes/hooks/useComunicacoes';
-// import { useSearch } from '@features/comunicacoes/hooks/useSearch';
+/**
+ * � Usage Examples:
+ *
+ * // Basic data operations
+ * import { useComunicacoes } from '@features/comunicacoes/hooks';
+ *
+ * // Advanced cache management
+ * import { useComunicacoesCache } from '@features/comunicacoes/hooks';
+ *
+ * // Search functionality
+ * import { useSearch } from '@features/comunicacoes/hooks';
+ */

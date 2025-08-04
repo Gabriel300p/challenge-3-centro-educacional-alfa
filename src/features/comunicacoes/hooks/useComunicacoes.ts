@@ -1,45 +1,84 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  QUERY_KEYS,
+  createMutationOptions,
+  createQueryOptions,
+} from "@shared/lib/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   createComunicacao,
   deleteComunicacao,
   fetchComunicacoes,
   updateComunicacao,
 } from "../services/comunicacao.service";
-import type { ComunicacaoForm } from "../types/comunicacao";
+import type { Comunicacao, ComunicacaoForm } from "../types/comunicacao";
 
+// 🚀 Optimized hook with advanced caching and optimistic updates
 export function useComunicacoes() {
-  const queryClient = useQueryClient();
-
+  // 🔄 Optimized query with centralized configuration
   const {
     data: comunicacoes = [],
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["comunicacoes"],
-    queryFn: fetchComunicacoes,
+    queryKey: QUERY_KEYS.comunicacoes.all,
+    ...createQueryOptions.list(fetchComunicacoes),
   });
 
-  const createMutation = useMutation({
-    mutationFn: createComunicacao,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["comunicacoes"] });
-    },
-  });
+  // 🚀 Create mutation with optimistic updates
+  const createMutation = useMutation(
+    createMutationOptions.withOptimisticUpdate<Comunicacao, ComunicacaoForm>({
+      mutationFn: createComunicacao,
+      queryKey: QUERY_KEYS.comunicacoes.all,
+      optimisticUpdateFn: (oldData: unknown, newData: ComunicacaoForm) => {
+        const comunicacoesList = oldData as Comunicacao[];
+        const optimisticComunicacao: Comunicacao = {
+          id: `temp-${Date.now()}`, // Temporary ID
+          ...newData,
+          dataCriacao: new Date(),
+          dataAtualizacao: new Date(),
+        };
+        return [...comunicacoesList, optimisticComunicacao];
+      },
+      onError: (error) => {
+        console.error("Failed to create comunicacao:", error);
+      },
+    }),
+  );
 
-  const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: ComunicacaoForm }) =>
-      updateComunicacao(id, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["comunicacoes"] });
-    },
-  });
+  // 🚀 Update mutation with optimistic updates
+  const updateMutation = useMutation(
+    createMutationOptions.withOptimisticUpdate<
+      Comunicacao,
+      { id: string; data: ComunicacaoForm }
+    >({
+      mutationFn: ({ id, data }) => updateComunicacao(id, data),
+      queryKey: QUERY_KEYS.comunicacoes.all,
+      optimisticUpdateFn: (oldData: unknown, { id, data }) => {
+        const comunicacoesList = oldData as Comunicacao[];
+        return comunicacoesList.map((comunicacao) =>
+          comunicacao.id === id ? { ...comunicacao, ...data } : comunicacao,
+        );
+      },
+      onError: (error) => {
+        console.error("Failed to update comunicacao:", error);
+      },
+    }),
+  );
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteComunicacao,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["comunicacoes"] });
-    },
-  });
+  // 🚀 Delete mutation with optimistic updates
+  const deleteMutation = useMutation(
+    createMutationOptions.withOptimisticUpdate<void, string>({
+      mutationFn: deleteComunicacao,
+      queryKey: QUERY_KEYS.comunicacoes.all,
+      optimisticUpdateFn: (oldData: unknown, id: string) => {
+        const comunicacoesList = oldData as Comunicacao[];
+        return comunicacoesList.filter((comunicacao) => comunicacao.id !== id);
+      },
+      onError: (error) => {
+        console.error("Failed to delete comunicacao:", error);
+      },
+    }),
+  );
 
   return {
     comunicacoes,

@@ -37,7 +37,7 @@ interface ModalComunicacaoProps {
   isEditing?: boolean;
 }
 
-// 🚀 Memoized modal for performance optimization  
+// 🚀 Memoized modal for performance optimization
 export const ModalComunicacao = memo(function ModalComunicacao({
   isOpen,
   onClose,

@@ -11,8 +11,11 @@ interface ColumnsProps {
   onDelete: (comunicacao: Comunicacao) => void;
 }
 
-// 🚀 Optimized column creation 
-export const createColumns = ({ onEdit, onDelete }: ColumnsProps): ColumnDef<Comunicacao>[] => [
+// 🚀 Optimized column creation
+export const createColumns = ({
+  onEdit,
+  onDelete,
+}: ColumnsProps): ColumnDef<Comunicacao>[] => [
   {
     accessorKey: "titulo",
     header: ({ column }) => (

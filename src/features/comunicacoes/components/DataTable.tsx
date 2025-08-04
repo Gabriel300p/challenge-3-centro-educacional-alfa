@@ -39,24 +39,27 @@ function DataTableComponent<TData, TValue>({
   const [rowSelection, setRowSelection] = useState({});
 
   // 🚀 Memoize table configuration to prevent unnecessary re-creations
-  const tableConfig = useMemo(() => ({
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  }), [data, columns, sorting, columnFilters, columnVisibility, rowSelection]);
+  const tableConfig = useMemo(
+    () => ({
+      data,
+      columns,
+      onSortingChange: setSorting,
+      onColumnFiltersChange: setColumnFilters,
+      getCoreRowModel: getCoreRowModel(),
+      getPaginationRowModel: getPaginationRowModel(),
+      getSortedRowModel: getSortedRowModel(),
+      getFilteredRowModel: getFilteredRowModel(),
+      onColumnVisibilityChange: setColumnVisibility,
+      onRowSelectionChange: setRowSelection,
+      state: {
+        sorting,
+        columnFilters,
+        columnVisibility,
+        rowSelection,
+      },
+    }),
+    [data, columns, sorting, columnFilters, columnVisibility, rowSelection],
+  );
 
   const table = useReactTable(tableConfig);
 

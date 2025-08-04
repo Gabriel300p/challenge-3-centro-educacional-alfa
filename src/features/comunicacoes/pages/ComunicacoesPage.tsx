@@ -1,5 +1,5 @@
-import { PlusCircleIcon } from "@shared/components/icons";
 import { LoadingSpinner } from "@shared/components";
+import { PlusCircleIcon } from "@shared/components/icons";
 import { Button } from "@shared/components/ui/button";
 import Divider from "@shared/components/ui/divider";
 import { Suspense, useMemo } from "react";
@@ -53,10 +53,14 @@ export default function ComunicacoesPage() {
   };
 
   // 🚀 Memoize columns to prevent unnecessary re-creation
-  const columns = useMemo(() => createColumns({
-    onEdit: openEditModal,
-    onDelete: openDeleteModal,
-  }), [openEditModal, openDeleteModal]);
+  const columns = useMemo(
+    () =>
+      createColumns({
+        onEdit: openEditModal,
+        onDelete: openDeleteModal,
+      }),
+    [openEditModal, openDeleteModal],
+  );
 
   if (isLoading) {
     return (

@@ -1,6 +1,6 @@
 /**
  * 🎯 Optimized Phosphor Icons Strategy
- * 
+ *
  * Benefits:
  * 1. Tree-shaking: Only imports icons actually used
  * 2. Centralized: Single source of truth for all icons
@@ -15,7 +15,6 @@ export {
   PlusCircleIcon,
   ProhibitIcon,
   XCircleIcon,
-  // Add new icons here as needed
 } from "@phosphor-icons/react";
 
 // 🚀 Common icon props for consistency
@@ -29,7 +28,7 @@ export const ICON_SIZES = {
 
 export const ICON_WEIGHTS = {
   thin: "thin",
-  light: "light", 
+  light: "light",
   regular: "regular",
   bold: "bold",
   fill: "fill",
