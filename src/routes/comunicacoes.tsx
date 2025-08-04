@@ -1,6 +1,6 @@
 import { ComunicacoesPage } from "@features/comunicacoes";
 import { MainLayout } from "@shared/components/layout/MainLayout";
-import { RouteSkeleton } from "@shared/components/skeletons/GenericSkeletons";
+import { RouteSkeleton } from "@shared/components/skeletons";
 import { useLoadingConfig } from "@shared/hooks/useLoadingConfig";
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
