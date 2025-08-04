@@ -1,13 +1,24 @@
-// 🎯 Strategic Component Exports for Comunicacoes Feature
-// Only exports components that are frequently imported together
+import { lazy } from "react";
 
-// Core Table Components (often used together)
+// 🎯 Strategic Component Exports for Comunicacoes Feature
+// Core components: loaded immediately, Heavy modal components: lazy-loaded
+
+// Always-needed components (loaded immediately)
 export { createColumns } from "./columns";
 export { DataTable } from "./DataTable";
 
-// Modal Components (often used together)
-export { ModalComunicacao } from "./ModalComunicacao";
-export { ModalDeleteConfirm } from "./ModalDeleteConfirm";
+// 🚀 Lazy-loaded Modal Components (only load when modals are opened)
+export const ModalComunicacao = lazy(() =>
+  import("./ModalComunicacao").then((module) => ({
+    default: module.ModalComunicacao,
+  })),
+);
+
+export const ModalDeleteConfirm = lazy(() =>
+  import("./ModalDeleteConfirm").then((module) => ({
+    default: module.ModalDeleteConfirm,
+  })),
+);
 
 // 📝 For single imports (better tree-shaking), prefer direct imports:
 // import { ModalComunicacao } from '@features/comunicacoes/components/ModalComunicacao';

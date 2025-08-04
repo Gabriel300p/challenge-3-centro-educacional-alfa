@@ -1,6 +1,8 @@
 import { PlusCircleIcon } from "@phosphor-icons/react";
+import { LoadingSpinner } from "@shared/components";
 import { Button } from "@shared/components/ui/button";
 import Divider from "@shared/components/ui/divider";
+import { Suspense } from "react";
 import {
   createColumns,
   DataTable,
@@ -107,28 +109,31 @@ export function ComunicacoesPage() {
         {/* Tabela */}
         <DataTable columns={columns} data={filteredComunicacoes} />
       </div>
-      {/* Modais */}
-      <ModalComunicacao
-        isOpen={isAddModalOpen}
-        onClose={closeAllModals}
-        onSave={handleSaveNew}
-        isEditing={false}
-      />
 
-      <ModalComunicacao
-        isOpen={isEditModalOpen}
-        onClose={closeAllModals}
-        onSave={handleSaveEdit}
-        comunicacao={selectedComunicacao}
-        isEditing={true}
-      />
+      {/* 🚀 Lazy-loaded Modals with Suspense */}
+      <Suspense fallback={<LoadingSpinner size="sm" />}>
+        <ModalComunicacao
+          isOpen={isAddModalOpen}
+          onClose={closeAllModals}
+          onSave={handleSaveNew}
+          isEditing={false}
+        />
 
-      <ModalDeleteConfirm
-        isOpen={isDeleteModalOpen}
-        onClose={closeAllModals}
-        onConfirm={handleConfirmDelete}
-        comunicacao={selectedComunicacao}
-      />
+        <ModalComunicacao
+          isOpen={isEditModalOpen}
+          onClose={closeAllModals}
+          onSave={handleSaveEdit}
+          comunicacao={selectedComunicacao}
+          isEditing={true}
+        />
+
+        <ModalDeleteConfirm
+          isOpen={isDeleteModalOpen}
+          onClose={closeAllModals}
+          onConfirm={handleConfirmDelete}
+          comunicacao={selectedComunicacao}
+        />
+      </Suspense>
     </div>
   );
 }

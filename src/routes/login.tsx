@@ -1,6 +1,24 @@
-import { LoginPage } from "@features/auth";
+import { LoadingSpinner } from "@shared/components";
 import { createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense } from "react";
+
+// 🚀 Code Splitting: Lazy load LoginPage
+const LoginPage = lazy(() =>
+  import("@features/auth").then((module) => ({
+    default: module.LoginPage,
+  })),
+);
 
 export const Route = createFileRoute("/login")({
-  component: LoginPage,
+  component: () => (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center">
+          <LoadingSpinner size="lg" text="Carregando página de login..." />
+        </div>
+      }
+    >
+      <LoginPage />
+    </Suspense>
+  ),
 });
