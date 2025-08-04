@@ -3,7 +3,7 @@ import {
   PencilSimpleLineIcon,
   PlusCircleIcon,
   ProhibitIcon,
-} from "@phosphor-icons/react";
+} from "@shared/components/icons";
 import { Button } from "@shared/components/ui/button";
 import {
   Dialog,
@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@shared/components/ui/select";
 import { Textarea } from "@shared/components/ui/textarea";
-import { useEffect, useMemo } from "react";
+import { memo, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import {
   comunicacaoSchema,
@@ -37,7 +37,8 @@ interface ModalComunicacaoProps {
   isEditing?: boolean;
 }
 
-export function ModalComunicacao({
+// 🚀 Memoized modal for performance optimization  
+export const ModalComunicacao = memo(function ModalComunicacao({
   isOpen,
   onClose,
   onSave,
@@ -211,4 +212,4 @@ export function ModalComunicacao({
       </DialogContent>
     </Dialog>
   );
-}
+});

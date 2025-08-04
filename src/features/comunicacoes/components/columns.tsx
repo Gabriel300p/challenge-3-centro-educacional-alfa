@@ -1,4 +1,4 @@
-import { PencilSimpleLineIcon, XCircleIcon } from "@phosphor-icons/react";
+import { PencilSimpleLineIcon, XCircleIcon } from "@shared/components/icons";
 import { Button } from "@shared/components/ui/button";
 import TableSort from "@shared/components/ui/table-sort";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -11,10 +11,8 @@ interface ColumnsProps {
   onDelete: (comunicacao: Comunicacao) => void;
 }
 
-export const createColumns = ({
-  onEdit,
-  onDelete,
-}: ColumnsProps): ColumnDef<Comunicacao>[] => [
+// 🚀 Optimized column creation 
+export const createColumns = ({ onEdit, onDelete }: ColumnsProps): ColumnDef<Comunicacao>[] => [
   {
     accessorKey: "titulo",
     header: ({ column }) => (

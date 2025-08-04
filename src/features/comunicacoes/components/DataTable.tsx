@@ -21,14 +21,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export function DataTable<TData, TValue>({
+// 🚀 Internal DataTable component for optimization
+function DataTableComponent<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -37,7 +38,8 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
 
-  const table = useReactTable({
+  // 🚀 Memoize table configuration to prevent unnecessary re-creations
+  const tableConfig = useMemo(() => ({
     data,
     columns,
     onSortingChange: setSorting,
@@ -54,7 +56,9 @@ export function DataTable<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-  });
+  }), [data, columns, sorting, columnFilters, columnVisibility, rowSelection]);
+
+  const table = useReactTable(tableConfig);
 
   return (
     <div className="w-full">
@@ -112,3 +116,6 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
+
+// 🚀 Memoized export for performance optimization with proper typing
+export const DataTable = DataTableComponent as typeof DataTableComponent;

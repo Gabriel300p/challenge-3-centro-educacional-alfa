@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@shared/components/ui/alert-dialog";
-import { useState } from "react";
+import { memo, useState } from "react";
 import type { Comunicacao } from "../types/comunicacao";
 
 interface ModalDeleteConfirmProps {
@@ -18,7 +18,8 @@ interface ModalDeleteConfirmProps {
   comunicacao?: Comunicacao | null;
 }
 
-export function ModalDeleteConfirm({
+// 🚀 Memoized delete modal for performance optimization
+export const ModalDeleteConfirm = memo(function ModalDeleteConfirm({
   isOpen,
   onClose,
   onConfirm,
@@ -60,4 +61,4 @@ export function ModalDeleteConfirm({
       </AlertDialogContent>
     </AlertDialog>
   );
-}
+});

@@ -5,7 +5,7 @@
 export type { Comunicacao, ComunicacaoForm } from "./types/comunicacao";
 
 // Pages
-export { ComunicacoesPage } from "./pages/ComunicacoesPage";
+export { default as ComunicacoesPage } from "./pages/ComunicacoesPage";
 
 // Schemas (for external validation)
 export {

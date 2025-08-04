@@ -1,9 +1,11 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import type { Comunicacao } from "../types/comunicacao";
 
+// 🚀 Optimized search hook with memoization
 export function useSearch(comunicacoes: Comunicacao[] = []) {
   const [searchTerm, setSearchTerm] = useState("");
 
+  // 🚀 Memoize filtered results to prevent unnecessary re-filtering
   const filteredComunicacoes = useMemo(() => {
     if (!searchTerm.trim()) return comunicacoes;
 
@@ -17,11 +19,13 @@ export function useSearch(comunicacoes: Comunicacao[] = []) {
     );
   }, [comunicacoes, searchTerm]);
 
-  const handleSearch = (term: string) => {
+  // 🚀 Memoize search handler to prevent unnecessary re-renders
+  const handleSearch = useCallback((term: string) => {
     setSearchTerm(term);
-  };
+  }, []);
 
-  const hasActiveSearch = searchTerm.trim() !== "";
+  // 🚀 Memoize derived state
+  const hasActiveSearch = useMemo(() => searchTerm.trim() !== "", [searchTerm]);
 
   return {
     searchTerm,

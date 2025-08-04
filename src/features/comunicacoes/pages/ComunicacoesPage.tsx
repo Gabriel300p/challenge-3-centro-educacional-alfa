@@ -1,8 +1,8 @@
-import { PlusCircleIcon } from "@phosphor-icons/react";
+import { PlusCircleIcon } from "@shared/components/icons";
 import { LoadingSpinner } from "@shared/components";
 import { Button } from "@shared/components/ui/button";
 import Divider from "@shared/components/ui/divider";
-import { Suspense } from "react";
+import { Suspense, useMemo } from "react";
 import {
   createColumns,
   DataTable,
@@ -12,7 +12,8 @@ import {
 import { useComunicacoes, useModals, useSearch } from "../hooks";
 import type { ComunicacaoForm } from "../types/comunicacao";
 
-export function ComunicacoesPage() {
+// 🚀 Memoized ComunicacoesPage for performance optimization
+export default function ComunicacoesPage() {
   const {
     comunicacoes,
     isLoading,
@@ -51,10 +52,11 @@ export function ComunicacoesPage() {
     }
   };
 
-  const columns = createColumns({
+  // 🚀 Memoize columns to prevent unnecessary re-creation
+  const columns = useMemo(() => createColumns({
     onEdit: openEditModal,
     onDelete: openDeleteModal,
-  });
+  }), [openEditModal, openDeleteModal]);
 
   if (isLoading) {
     return (
