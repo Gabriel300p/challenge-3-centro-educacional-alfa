@@ -71,7 +71,7 @@ export const createMutationOptions = {
   }) => ({
     mutationFn: config.mutationFn,
     onMutate: async (variables: TVariables) => {
-      if (!config.optimisticUpdateFn) return;
+      if (!config.optimisticUpdateFn || !queryClient) return;
 
       // Cancel outgoing refetches so they don't overwrite optimistic update
       await queryClient.cancelQueries({ queryKey: config.queryKey });
@@ -91,7 +91,12 @@ export const createMutationOptions = {
     },
     onError: (error: Error, variables: TVariables, context: unknown) => {
       // Rollback on error
-      if (context && typeof context === "object" && "previousData" in context) {
+      if (
+        context &&
+        typeof context === "object" &&
+        "previousData" in context &&
+        queryClient
+      ) {
         queryClient.setQueryData(
           config.queryKey,
           (context as { previousData: unknown }).previousData,
@@ -101,7 +106,9 @@ export const createMutationOptions = {
     },
     onSettled: () => {
       // Always refetch after error or success
-      queryClient.invalidateQueries({ queryKey: config.queryKey });
+      if (queryClient) {
+        queryClient.invalidateQueries({ queryKey: config.queryKey });
+      }
     },
   }),
 

@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
+    "@faker-js/faker": "^9.9.0",
     "@tanstack/react-query-devtools": "^5.84.1",
     "@tanstack/router-cli": "^1.130.15",
     "@tanstack/router-devtools": "^1.130.13",
@@ -55,6 +56,7 @@
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
+    "@vitest/coverage-v8": "3.2.4",
     "eslint": "^9.30.1",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
