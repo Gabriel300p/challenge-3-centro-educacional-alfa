@@ -2,11 +2,11 @@ name: 🚀 CD - Deploy
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, new-structure]
   workflow_run:
     workflows: ["🔍 CI - Quality Assurance"]
     types: [completed]
-    branches: [main, develop]
+    branches: [main, develop, new-structure]
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

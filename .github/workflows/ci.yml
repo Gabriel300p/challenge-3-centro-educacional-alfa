@@ -2,9 +2,9 @@ name: 🔍 CI - Quality Assurance
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main, develop, new-structure]
   pull_request:
-    branches: [main, develop]
+    branches: [main, develop, new-structure]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
