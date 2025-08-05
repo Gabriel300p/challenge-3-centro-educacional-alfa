@@ -67,6 +67,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
       message?: string,
       description?: string,
       showDescriptionPreview?: boolean,
+      expandable?: boolean,
     ): string => {
       return showToast({
         type: "success",
@@ -74,6 +75,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
         message,
         description,
         showDescriptionPreview,
+        expandable,
       });
     },
     [showToast],
@@ -85,6 +87,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
       message?: string,
       description?: string,
       showDescriptionPreview?: boolean,
+      expandable?: boolean,
     ): string => {
       return showToast({
         type: "error",
@@ -92,6 +95,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
         message,
         description,
         showDescriptionPreview,
+        expandable,
       });
     },
     [showToast],
@@ -103,6 +107,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
       message?: string,
       description?: string,
       showDescriptionPreview?: boolean,
+      expandable?: boolean,
     ): string => {
       return showToast({
         type: "warning",
@@ -110,6 +115,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
         message,
         description,
         showDescriptionPreview,
+        expandable,
       });
     },
     [showToast],
@@ -121,6 +127,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
       message?: string,
       description?: string,
       showDescriptionPreview?: boolean,
+      expandable?: boolean,
     ): string => {
       return showToast({
         type: "info",
@@ -128,6 +135,7 @@ export function ToastProvider({ children }: ToastProviderProps) {
         message,
         description,
         showDescriptionPreview,
+        expandable,
       });
     },
     [showToast],

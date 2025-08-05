@@ -3,7 +3,7 @@ import { useToast } from "@shared/hooks";
 import { AlertTriangle, Bell, CheckCircle, Info, Zap } from "lucide-react";
 
 export function ToastDemoSimple() {
-  const { success, error, warning, info } = useToast();
+  const { success, error, warning, info, showToast } = useToast();
 
   const handleBasicSuccess = () => {
     success("Operação realizada com sucesso!");
@@ -17,11 +17,30 @@ export function ToastDemoSimple() {
   };
 
   const handleSuccessWithDescription = () => {
-    success(
+    info(
       "Sistema atualizado!",
-      "Nova versão instalada com sucesso.",
       "A nova versão inclui melhorias de performance, correções de bugs e novas funcionalidades para uma melhor experiência do usuário.",
     );
+  };
+
+  const handleExpandableMessage = () => {
+    showToast({
+      type: "success",
+      title: "Mensagem Expansível",
+      message:
+        "Esta é uma mensagem muito longa que será truncada inicialmente com reticências (...) e pode ser expandida clicando no botão chevron para revelar todo o conteúdo. Perfeita para quando você tem informações importantes mas quer manter o layout limpo.",
+      expandable: true,
+    });
+  };
+
+  const handleExpandableMessageWithDescription = () => {
+    showToast({
+      type: "info",
+      title: "Recurso Completo",
+      message:
+        "Tanto a mensagem quanto a descrição podem ser expandíveis! Esta mensagem longa demonstra como funciona o truncamento inicial.",
+      expandable: false,
+    });
   };
 
   const handleWarning = () => {
@@ -55,7 +74,7 @@ export function ToastDemoSimple() {
           🍞 Sistema de Toast Renovado
         </h2>
         <p className="text-sm text-slate-500">
-          Teste as novas funcionalidades: design limpo, descrições expandíveis e
+          Teste as novas funcionalidades: design limpo, mensagens expansíveis e
           controle de pausa
         </p>
       </div>
@@ -89,6 +108,26 @@ export function ToastDemoSimple() {
         >
           <Bell className="h-4 w-4 text-blue-600" />
           Com Descrição
+        </Button>
+
+        <Button
+          onClick={handleExpandableMessage}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <Bell className="h-4 w-4 text-purple-600" />
+          Mensagem Expansível
+        </Button>
+
+        <Button
+          onClick={handleExpandableMessageWithDescription}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <Info className="h-4 w-4 text-indigo-600" />
+          Completo
         </Button>
 
         <Button
@@ -129,9 +168,13 @@ export function ToastDemoSimple() {
         <ul className="space-y-1 text-xs text-slate-600">
           <li>• Design limpo com fundo branco e ícones coloridos</li>
           <li>• Títulos em slate-700, mensagens em slate-500</li>
-          <li>• Descrições expandíveis com botão chevron</li>
+          <li>
+            • <strong>Mensagens expansíveis</strong> com truncamento inteligente
+          </li>
+          <li>• Descrições expandíveis com botão chevron separado</li>
           <li>• Controle de pausa com contador dinâmico</li>
           <li>• Animações mais suaves e naturais</li>
+          <li>• Layout responsivo para textos longos</li>
         </ul>
       </div>
     </div>

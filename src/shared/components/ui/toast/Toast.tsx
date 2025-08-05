@@ -35,14 +35,14 @@ export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
   const [progress, setProgress] = useState(100);
   const [isHovered, setIsHovered] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isMessageExpanded, setIsMessageExpanded] = useState(false);
   const [isPermanentlyPaused, setIsPermanentlyPaused] = useState(false);
   const [timeLeft, setTimeLeft] = useState(0);
 
   const Icon = TOAST_ICONS[toast.type];
   const duration = toast.duration ?? TOAST_CONFIG.duration[toast.type];
-  const hasDescription = Boolean(toast.description);
   const hasMessage = Boolean(toast.message);
+  const isMessageExpandable = Boolean(toast.expandable && hasMessage);
 
   // ⏱️ Progress timer with time tracking
   useEffect(() => {
@@ -97,9 +97,9 @@ export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
     setTimeLeft(0);
   };
 
-  // 📖 Handle description expansion
-  const toggleExpansion = () => {
-    setIsExpanded(!isExpanded);
+  // 📖 Handle message expansion
+  const toggleMessageExpansion = () => {
+    setIsMessageExpanded(!isMessageExpanded);
   };
 
   return (
@@ -136,11 +136,10 @@ export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
       aria-live="polite"
       aria-atomic="true"
     >
-      {/* 🎨 Header Layout: Icon -> Title -> Spacer -> Expand Button -> Close Button */}
       <div className="flex w-full flex-col items-start gap-1.5">
         <div className="flex w-full items-center justify-between gap-2">
-          {/* Icon */}
           <div className="flex flex-shrink-0 items-center gap-3">
+            {/* Icon */}
             <Icon className={getIconClasses(toast.type)} aria-hidden="true" />
             {/* Title */}
             <h3 className="text-sm leading-tight font-semibold text-slate-700">
@@ -149,16 +148,18 @@ export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
           </div>
           {/* Action Buttons */}
           <div className="flex flex-shrink-0 items-center gap-1">
-            {/* Description Toggle */}
-            {hasDescription && (
+            {/* Message Expand Toggle */}
+            {isMessageExpandable && (
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={toggleExpansion}
+                onClick={toggleMessageExpansion}
                 className="h-6 w-6 p-0 opacity-60 hover:opacity-100"
-                title={isExpanded ? "Recolher descrição" : "Expandir descrição"}
+                title={
+                  isMessageExpanded ? "Recolher mensagem" : "Expandir mensagem"
+                }
               >
-                {isExpanded ? (
+                {isMessageExpanded ? (
                   <ChevronUp className="h-4 w-4" />
                 ) : (
                   <ChevronDown className="h-4 w-4" />
@@ -179,39 +180,46 @@ export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
           </div>
         </div>
         {/* Content */}
-        <div className="min-w-0 flex-1">
+        <div className="min-w-0 flex-1 pr-2">
           {/* Message */}
           {hasMessage && (
-            <p className="mt-1 text-sm leading-relaxed text-slate-500">
-              {toast.message}
-            </p>
-          )}
+            <div className="mt-1">
+              {isMessageExpandable ? (
+                <>
+                  {/* Truncated Message */}
+                  {!isMessageExpanded && (
+                    <p className="line-clamp-1 text-sm leading-relaxed text-slate-500">
+                      {toast.message}
+                    </p>
+                  )}
 
-          {/* Description Preview */}
-          {hasDescription && toast.showDescriptionPreview && !isExpanded && (
-            <p className="line-clamp-1 text-sm leading-relaxed text-slate-400">
-              {toast.description}
-            </p>
-          )}
-
-          {/* Expandable Description */}
-          {hasDescription && (
-            <motion.div
-              initial={false}
-              animate={{
-                height: isExpanded ? "auto" : 0,
-                opacity: isExpanded ? 1 : 0,
-              }}
-              transition={{
-                duration: 0.3,
-                ease: "easeInOut",
-              }}
-              className="overflow-hidden"
-            >
-              <p className="mt-0.5 text-sm leading-relaxed text-slate-500">
-                {toast.description}
-              </p>
-            </motion.div>
+                  {/* Expandable Message */}
+                  <motion.div
+                    initial={false}
+                    animate={{
+                      height: isMessageExpanded ? "auto" : 0,
+                      opacity: isMessageExpanded ? 1 : 0,
+                    }}
+                    transition={{
+                      duration: 0.3,
+                      ease: "easeInOut",
+                    }}
+                    className="overflow-hidden"
+                  >
+                    {isMessageExpanded && (
+                      <p className="text-sm leading-relaxed text-slate-500">
+                        {toast.message}
+                      </p>
+                    )}
+                  </motion.div>
+                </>
+              ) : (
+                /* Normal Message */
+                <p className="text-sm leading-relaxed text-slate-500">
+                  {toast.message}
+                </p>
+              )}
+            </div>
           )}
 
           {/* Pause Text */}

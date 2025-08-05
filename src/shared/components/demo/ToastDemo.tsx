@@ -39,14 +39,39 @@ export function ToastDemo() {
     showToast({
       type: "info",
       title: "Nova Funcionalidade",
-      // message: "Agora você pode expandir para ver mais detalhes.",
+      message:
+        "Agora você pode expandir mensagens e descrições para ver mais detalhes.",
       description:
-        "Esta é uma descrição expandida que fornece informações adicionais sobre a notificação. Você pode expandir ou recolher clicando no botão 'Mais/Menos'. Também é possível pausar permanentemente o timer clicando no ícone do relógio.",
+        "Esta é uma descrição expandida que fornece informações adicionais sobre a notificação. Você pode expandir ou recolher clicando no botão chevron. Também é possível pausar permanentemente o timer.",
       duration: 8000,
       action: {
         label: "Entendi",
         onClick: () => success("Obrigado por testar!"),
       },
+    });
+  };
+
+  const handleExpandableMessageToast = () => {
+    showToast({
+      type: "warning",
+      title: "Mensagem Expansível",
+      message:
+        "Esta é uma mensagem muito longa que será truncada inicialmente e pode ser expandida clicando no botão. Perfeita para quando você tem informações importantes mas não quer ocupar muito espaço na tela inicialmente.",
+      expandable: true,
+      duration: 10000,
+    });
+  };
+
+  const handleExpandableMessageWithDescription = () => {
+    showToast({
+      type: "success",
+      title: "Recurso Completo",
+      message:
+        "Tanto a mensagem quanto a descrição podem ser expandíveis! Esta mensagem longa demonstra como o texto é truncado inicialmente com reticências e pode ser expandido para mostrar o conteúdo completo.",
+      expandable: true,
+      description:
+        "E aqui temos uma descrição adicional que também pode ser expandida separadamente. Isso oferece máxima flexibilidade para diferentes tipos de conteúdo.",
+      duration: 12000,
     });
   };
 
@@ -132,6 +157,22 @@ export function ToastDemo() {
             </Button>
 
             <Button
+              onClick={handleExpandableMessageToast}
+              variant="outline"
+              className="w-full"
+            >
+              📝 Mensagem Expansível
+            </Button>
+
+            <Button
+              onClick={handleExpandableMessageWithDescription}
+              variant="outline"
+              className="w-full"
+            >
+              🔧 Mensagem + Descrição Expansíveis
+            </Button>
+
+            <Button
               onClick={handleLongToastWithPause}
               variant="outline"
               className="w-full"
@@ -155,20 +196,28 @@ export function ToastDemo() {
           </p>
           <ul className="ml-4 space-y-1 text-xs">
             <li>
-              • <strong>Descrição Expandível:</strong> Clique em "Mais" para ver
-              detalhes
+              • <strong>Mensagem Expansível:</strong> Configure `expandable:
+              true` para truncar mensagens longas com reticências
             </li>
             <li>
-              • <strong>Pausa Permanente:</strong> Use o ícone do relógio (⏰)
+              • <strong>Descrição Expandível:</strong> Clique no chevron para
+              ver detalhes adicionais
+            </li>
+            <li>
+              • <strong>Controles Separados:</strong> Botões independentes para
+              expandir mensagem e descrição
+            </li>
+            <li>
+              • <strong>Pausa Permanente:</strong> Clique em "Clique para parar"
               para pausar o timer
             </li>
             <li>
-              • <strong>Animações Fluidas:</strong> Transições mais suaves e
-              naturais
+              • <strong>Animações Fluidas:</strong> Transições suaves e naturais
+              para todas as expansões
             </li>
             <li>
-              • <strong>Hover para Pausar:</strong> Timer pausa automaticamente
-              ao passar o mouse
+              • <strong>Layout Responsivo:</strong> Funciona bem mesmo com
+              textos muito longos
             </li>
           </ul>
         </div>

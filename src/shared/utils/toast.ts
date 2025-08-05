@@ -7,6 +7,7 @@ export interface ToastData {
   type: ToastType;
   title: string;
   message?: string;
+  expandable?: boolean;
   description?: string;
   showDescriptionPreview?: boolean;
   duration?: number;
