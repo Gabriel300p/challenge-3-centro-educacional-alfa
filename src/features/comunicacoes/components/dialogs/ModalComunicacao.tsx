@@ -24,10 +24,9 @@ import { Textarea } from "@shared/components/ui/textarea";
 import { memo, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import {
-  comunicacaoSchema,
+  comunicacaoFormSchema,
   type Comunicacao,
   type ComunicacaoForm,
-  type ComunicacaoFormData,
 } from "../../schemas/comunicacao.schemas";
 
 interface ModalComunicacaoProps {
@@ -46,7 +45,7 @@ export const ModalComunicacao = memo(function ModalComunicacao({
   comunicacao,
   isEditing = false,
 }: ModalComunicacaoProps) {
-  const defaultValues = useMemo<ComunicacaoFormData>(
+  const defaultValues = useMemo<ComunicacaoForm>(
     () => ({
       titulo: "",
       autor: "",
@@ -63,8 +62,8 @@ export const ModalComunicacao = memo(function ModalComunicacao({
     setValue,
     watch,
     formState: { errors, isSubmitting, isValid },
-  } = useForm<ComunicacaoFormData>({
-    resolver: zodResolver(comunicacaoSchema),
+  } = useForm<ComunicacaoForm>({
+    resolver: zodResolver(comunicacaoFormSchema),
     mode: "onChange",
     defaultValues,
   });
@@ -84,7 +83,7 @@ export const ModalComunicacao = memo(function ModalComunicacao({
     }
   }, [isEditing, comunicacao, isOpen, reset, defaultValues]);
 
-  const onSubmit = async (data: ComunicacaoFormData) => {
+  const onSubmit = async (data: ComunicacaoForm) => {
     try {
       await onSave(data);
       onClose();
@@ -140,7 +139,7 @@ export const ModalComunicacao = memo(function ModalComunicacao({
             <Select
               value={watch("tipo")}
               onValueChange={(value) => {
-                setValue("tipo", value as ComunicacaoFormData["tipo"], {
+                setValue("tipo", value as ComunicacaoForm["tipo"], {
                   shouldValidate: true,
                 });
               }}

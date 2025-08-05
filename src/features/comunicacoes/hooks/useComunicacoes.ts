@@ -10,7 +10,7 @@ import {
   fetchComunicacoes,
   updateComunicacao,
 } from "../services/comunicacao.service";
-import type { Comunicacao, ComunicacaoForm } from "../types/comunicacao";
+import type { Comunicacao, ComunicacaoForm } from "../schemas/comunicacao.schemas";
 
 // 🚀 Optimized hook with advanced caching and optimistic updates
 export function useComunicacoes() {

@@ -1,4 +1,4 @@
-import type { Comunicacao } from "../types/comunicacao";
+import type { Comunicacao } from "../schemas/comunicacao.schemas";
 
 const mockComunicacoes: Comunicacao[] = [
   {

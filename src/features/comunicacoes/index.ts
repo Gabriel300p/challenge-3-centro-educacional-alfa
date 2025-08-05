@@ -2,7 +2,7 @@
 // Main exports for clean imports
 
 // Types (most commonly used)
-export type { Comunicacao, ComunicacaoForm } from "./types/comunicacao";
+export type { Comunicacao, ComunicacaoForm } from "./schemas/comunicacao.schemas";
 
 // Pages
 export { default as ComunicacoesPage } from "./pages/ComunicacoesPage";

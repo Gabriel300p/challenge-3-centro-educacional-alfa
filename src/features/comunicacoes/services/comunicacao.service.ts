@@ -1,4 +1,4 @@
-import type { Comunicacao, ComunicacaoForm } from "../types/comunicacao";
+import type { Comunicacao, ComunicacaoForm } from "../schemas/comunicacao.schemas";
 import mockComunicacoes from "./data";
 
 // Simula delay de rede

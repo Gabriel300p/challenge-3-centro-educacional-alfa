@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import type { Comunicacao } from "../types/comunicacao";
+import type { Comunicacao } from "../schemas/comunicacao.schemas";
 
 // 🚀 Optimized search hook with memoization
 export function useSearch(comunicacoes: Comunicacao[] = []) {

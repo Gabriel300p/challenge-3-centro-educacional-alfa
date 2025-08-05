@@ -4,7 +4,7 @@ import TableSort from "@shared/components/ui/table-sort";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import type { Comunicacao } from "../types/comunicacao";
+import type { Comunicacao } from "../../schemas/comunicacao.schemas";
 
 interface ColumnsProps {
   onEdit: (comunicacao: Comunicacao) => void;

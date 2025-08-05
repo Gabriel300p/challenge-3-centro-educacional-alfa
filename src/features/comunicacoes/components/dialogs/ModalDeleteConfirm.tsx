@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
 } from "@shared/components/ui/alert-dialog";
 import { memo, useState } from "react";
-import type { Comunicacao } from "../types/comunicacao";
+import type { Comunicacao } from "../../schemas/comunicacao.schemas";
 
 interface ModalDeleteConfirmProps {
   isOpen: boolean;

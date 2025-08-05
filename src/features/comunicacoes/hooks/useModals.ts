@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { Comunicacao } from "../types/comunicacao";
+import type { Comunicacao } from "../schemas/comunicacao.schemas";
 
 export function useModals() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);

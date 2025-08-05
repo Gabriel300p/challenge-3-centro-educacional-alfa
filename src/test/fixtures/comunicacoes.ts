@@ -6,7 +6,7 @@
  */
 
 import { faker } from "@faker-js/faker";
-import type { Comunicacao } from "@features/comunicacoes/types/comunicacao";
+import type { Comunicacao } from "@features/comunicacoes/schemas/comunicacao.schemas";
 
 // Seed para dados consistentes nos testes
 faker.seed(123);
