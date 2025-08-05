@@ -14,7 +14,7 @@ export { MainLayout } from "./layout/MainLayout";
 export { TopBar } from "./layout/TopBar";
 
 // 🎯 Skeletons (for loading states) - Updated to use centralized index
-export * from "./skeletons";
+export * from "./skeletons/_index";
 
 // Most Used UI Components (from design system)
 export { Button } from "./ui/button";

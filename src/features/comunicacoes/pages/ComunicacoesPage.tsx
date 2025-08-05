@@ -8,10 +8,10 @@ import {
   DataTable,
   ModalComunicacao,
   ModalDeleteConfirm,
-} from "../components";
+} from "../components/_index";
 import { CommunicationTableSkeleton } from "../components/skeletons";
-import { useComunicacoes, useModals, useSearch } from "../hooks";
-import type { ComunicacaoForm } from "../types/comunicacao";
+import { useComunicacoes, useModals, useSearch } from "../hooks/_index";
+import type { ComunicacaoForm } from "../schemas/comunicacao.schemas";
 
 // ✅ Simplified ComunicacoesPage without infinite loops
 export default function ComunicacoesPage() {

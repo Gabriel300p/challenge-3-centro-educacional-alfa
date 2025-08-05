@@ -4,18 +4,18 @@ import { lazy } from "react";
 // Core components: loaded immediately, Heavy modal components: lazy-loaded
 
 // Always-needed components (loaded immediately)
-export { createColumns } from "./columns";
-export { DataTable } from "./DataTable";
+export { createColumns } from "./table/columns";
+export { DataTable } from "./table/DataTable";
 
 // 🚀 Lazy-loaded Modal Components (only load when modals are opened)
 export const ModalComunicacao = lazy(() =>
-  import("./ModalComunicacao").then((module) => ({
+  import("./dialogs/ModalComunicacao").then((module) => ({
     default: module.ModalComunicacao,
   })),
 );
 
 export const ModalDeleteConfirm = lazy(() =>
-  import("./ModalDeleteConfirm").then((module) => ({
+  import("./dialogs/ModalDeleteConfirm").then((module) => ({
     default: module.ModalDeleteConfirm,
   })),
 );

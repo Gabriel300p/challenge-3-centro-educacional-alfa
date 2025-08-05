@@ -25,9 +25,10 @@ import { memo, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import {
   comunicacaoSchema,
+  type Comunicacao,
+  type ComunicacaoForm,
   type ComunicacaoFormData,
-} from "../schemas/comunicacao.schemas";
-import type { Comunicacao, ComunicacaoForm } from "../types/comunicacao";
+} from "../../schemas/comunicacao.schemas";
 
 interface ModalComunicacaoProps {
   isOpen: boolean;

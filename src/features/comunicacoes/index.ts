@@ -14,7 +14,7 @@ export {
 } from "./schemas/comunicacao.schemas";
 
 // Main components (if reused in other features)
-export { ModalComunicacao } from "./components/ModalComunicacao";
+export { ModalComunicacao } from "./components/dialogs/ModalComunicacao";
 
 // Note: For better performance and explicitness:
 // - Specific hooks: import from '@features/comunicacoes/hooks/useSpecificHook'
