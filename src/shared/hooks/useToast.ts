@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import type { ToastContextValue } from "../components/ToastProvider";
-import { ToastContext } from "../components/ToastProvider";
+import type { ToastContextValue } from "../components/ui/toast/ToastProvider";
+import { ToastContext } from "../components/ui/toast/ToastProvider";
 
 // 🪝 useToast Hook
 export function useToast(): ToastContextValue {

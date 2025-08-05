@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
-import type { ToastData } from "../../../utils/toast";
-import { TOAST_CONFIG } from "../../../utils/toast";
-import { Toast } from "./Toast";
+import type { ToastData } from "./toast";
+import { TOAST_CONFIG } from "./toast";
+import { ToastMain } from "./ToastMain";
 
 interface ToastContainerProps {
   toasts: ToastData[];
@@ -30,7 +30,7 @@ export function ToastContainer({ toasts, onClose }: ToastContainerProps) {
             layout
             layoutId={toast.id}
           >
-            <Toast toast={toast} onClose={onClose} />
+            <ToastMain toast={toast} onClose={onClose} />
           </motion.div>
         ))}
       </AnimatePresence>

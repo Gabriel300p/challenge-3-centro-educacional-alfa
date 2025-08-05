@@ -1,4 +1,4 @@
-import { LoadingSpinner } from "@shared/components";
+import { LoadingSpinner } from "@/shared/components/ui/toast/_index";
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
 

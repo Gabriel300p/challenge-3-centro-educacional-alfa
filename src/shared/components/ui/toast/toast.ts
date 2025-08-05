@@ -10,6 +10,7 @@ export interface ToastData {
   expandable?: boolean;
   description?: string;
   showDescriptionPreview?: boolean;
+  showStopMessage?: boolean;
   duration?: number;
   persistent?: boolean;
   action?: ToastAction;

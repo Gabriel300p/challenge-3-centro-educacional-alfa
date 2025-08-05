@@ -9,26 +9,26 @@ export {
   FullPageLoader,
   LoadingSpinner,
   PageLoader,
-} from "./common/LoadingSpinner";
-export { ErrorBoundary } from "./errors/ErrorBoundary";
+} from "../../common/LoadingSpinner";
+export { ErrorBoundary } from "../../errors/ErrorBoundary";
 
 // Layout Components (frequently used)
-export { MainLayout } from "./layout/MainLayout";
-export { TopBar } from "./layout/TopBar";
+export { MainLayout } from "../../layout/MainLayout";
+export { TopBar } from "../../layout/TopBar";
 
 // 🎯 Skeletons (for loading states) - Updated to use centralized index
-export * from "./skeletons/_index";
+export * from "../../skeletons/_index";
 
 // Most Used UI Components (from design system)
-export { Button } from "./ui/button";
+export { Button } from "../button";
 export {
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./ui/dialog";
-export { Input } from "./ui/input";
+} from "../dialog";
+export { Input } from "../input";
 
 // 📝 For better tree-shaking, import specific components directly:
 // import { SearchBar } from '@shared/components/common/SearchBar';

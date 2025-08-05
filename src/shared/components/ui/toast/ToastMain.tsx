@@ -9,13 +9,9 @@ import {
   X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import type { ToastData } from "../../../utils/toast";
-import {
-  getIconClasses,
-  getToastClasses,
-  TOAST_CONFIG,
-} from "../../../utils/toast";
 import { Button } from "../button";
+import type { ToastData } from "./toast";
+import { getIconClasses, getToastClasses, TOAST_CONFIG } from "./toast";
 
 interface ToastProps {
   toast: ToastData;
@@ -31,7 +27,7 @@ const TOAST_ICONS = {
   info: Info,
 } as const;
 
-export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
+export function ToastMain({ toast, onClose }: Omit<ToastProps, "index">) {
   const [progress, setProgress] = useState(100);
   const [isHovered, setIsHovered] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -43,6 +39,7 @@ export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
   const duration = toast.duration ?? TOAST_CONFIG.duration[toast.type];
   const hasMessage = Boolean(toast.message);
   const isMessageExpandable = Boolean(toast.expandable && hasMessage);
+  const showStopMessage = Boolean(toast.showStopMessage);
 
   // ⏱️ Progress timer with time tracking
   useEffect(() => {
@@ -221,18 +218,21 @@ export function Toast({ toast, onClose }: Omit<ToastProps, "index">) {
               )}
             </div>
           )}
-
           {/* Pause Text */}
-          {!toast.persistent && !isPermanentlyPaused && timeLeft > 0 && (
-            <div className="mt-3 text-xs text-slate-400">
-              Essa mensagem fechará em {timeLeft}s.{" "}
-              <button
-                onClick={handlePermanentPause}
-                className="text-slate-600 underline transition-colors hover:text-slate-800"
-              >
-                Clique para parar
-              </button>
-            </div>
+          {showStopMessage && (
+            <>
+              {!toast.persistent && !isPermanentlyPaused && timeLeft > 0 && (
+                <div className="mt-3 text-xs text-slate-400">
+                  Essa mensagem fechará em {timeLeft}s.{" "}
+                  <button
+                    onClick={handlePermanentPause}
+                    className="text-slate-600 underline transition-colors hover:text-slate-800"
+                  >
+                    Clique para parar
+                  </button>
+                </div>
+              )}
+            </>
           )}
 
           {/* Custom Action */}

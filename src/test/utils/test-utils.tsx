@@ -4,7 +4,7 @@
  * Provides configured providers and utilities for testing
  */
 /* eslint-disable react-refresh/only-export-components */
-import { ErrorBoundary } from "@/shared/components";
+import { ErrorBoundary } from "@/shared/components/ui/toast/_index";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, type RenderOptions } from "@testing-library/react";
 import type { ReactElement, ReactNode } from "react";

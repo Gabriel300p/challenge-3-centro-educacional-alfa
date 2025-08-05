@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { LoadingSpinner } from "@/shared/components/ui/toast/_index";
 import { render, screen } from "@testing-library/react";
-import { LoadingSpinner } from "@shared/components";
+import { describe, expect, it } from "vitest";
 
 describe("LoadingSpinner", () => {
   it("renders with default props", () => {

@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { createContext, useCallback, useState } from "react";
-import { ToastContainer } from "../components/ui/toast/ToastContainer";
-import type { ToastData } from "../utils/toast";
-import { generateToastId, TOAST_CONFIG } from "../utils/toast";
+import type { ToastData } from "./toast";
+import { generateToastId, TOAST_CONFIG } from "./toast";
+import { ToastContainer } from "./ToastContainer";
 
 // 🍞 Toast Context Types
 export interface ToastContextValue {

@@ -1,9 +1,12 @@
 import { useCallback, useState } from "react";
 
-// � Toast System
+// 🍞 Toast System
 export { useToast } from "./useToast";
 
-// �🎯 Shared utility hooks
+// 🎨 Theme System
+export { useTheme } from "./useTheme";
+
+// 🎯 Shared utility hooks
 export function useToggle(initialValue = false) {
   const [value, setValue] = useState(initialValue);
 
@@ -14,16 +17,13 @@ export function useToggle(initialValue = false) {
   return { value, toggle, setTrue, setFalse };
 }
 
-// 🎯 Export configuration hooks
-export * from "./useLoadingConfig";
-
 export function useLocalStorage<T>(key: string, initialValue: T) {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.error(`Error reading localStorage key "${key}":`, error);
+      console.warn(`Error reading localStorage key "${key}":`, error);
       return initialValue;
     }
   });
@@ -36,7 +36,7 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
         setStoredValue(valueToStore);
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       } catch (error) {
-        console.error(`Error setting localStorage key "${key}":`, error);
+        console.warn(`Error setting localStorage key "${key}":`, error);
       }
     },
     [key, storedValue],
