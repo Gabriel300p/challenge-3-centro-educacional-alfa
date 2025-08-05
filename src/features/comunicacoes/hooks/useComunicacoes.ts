@@ -4,13 +4,16 @@ import {
   createQueryOptions,
 } from "@shared/lib/react-query";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import type {
+  Comunicacao,
+  ComunicacaoForm,
+} from "../schemas/comunicacao.schemas";
 import {
   createComunicacao,
   deleteComunicacao,
   fetchComunicacoes,
   updateComunicacao,
 } from "../services/comunicacao.service";
-import type { Comunicacao, ComunicacaoForm } from "../schemas/comunicacao.schemas";
 
 // 🚀 Optimized hook with advanced caching and optimistic updates
 export function useComunicacoes() {

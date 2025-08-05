@@ -5,8 +5,8 @@ import "./index.css";
 import { updateLoadingConfig } from "./shared/hooks/useLoadingConfig.ts";
 
 updateLoadingConfig({
-  useRouteSkeleton: false,
-  useLazyLoading: false,
+  useRouteSkeleton: true,
+  useLazyLoading: true,
 });
 
 createRoot(document.getElementById("root")!).render(

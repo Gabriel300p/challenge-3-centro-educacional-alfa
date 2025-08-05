@@ -4,7 +4,7 @@ import { lazy, Suspense } from "react";
 
 // 🚀 Code Splitting: Lazy load LoginPage
 const LoginPage = lazy(() =>
-  import("@features/auth").then((module) => ({
+  import("@/features/auth/_index").then((module) => ({
     default: module.LoginPage,
   })),
 );

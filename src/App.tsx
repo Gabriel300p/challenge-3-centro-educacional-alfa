@@ -1,4 +1,4 @@
-import { AppProviders } from "@app/providers";
+import { AppProviders } from "@/app/providers/_index";
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 
 // Import the generated route tree
