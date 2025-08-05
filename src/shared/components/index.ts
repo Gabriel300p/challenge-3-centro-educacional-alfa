@@ -1,6 +1,9 @@
 // 🎯 Most Used Shared Components
 // Only exports frequently used components for clean imports
 
+// 🍞 Toast System
+export { ToastProvider } from "./ToastProvider";
+
 // Core App Components
 export {
   FullPageLoader,

@@ -1,3 +1,4 @@
+import { ToastDemo } from "@/shared/components/demo/ToastDemo";
 import { PlusCircleIcon } from "@shared/components/icons";
 import { Button } from "@shared/components/ui/button";
 import Divider from "@shared/components/ui/divider";
@@ -103,6 +104,8 @@ export default function ComunicacoesPage() {
         </Button>
       </motion.div>
       <Divider />
+
+      <ToastDemo />
 
       {/* Content */}
       <div className="space-y-4">

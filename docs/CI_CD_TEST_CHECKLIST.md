@@ -1,9 +1,10 @@
 # ✅ Checklist de Teste do CI/CD Pipeline
 
 ## 🎯 **STATUS ATUAL**
+
 - ✅ **Código commitado e enviado** para branch `new-structure`
 - ✅ **Testes locais passando** (35/35 tests)
-- ✅ **Build local funcionando** 
+- ✅ **Build local funcionando**
 - ✅ **Lint e formatação OK**
 
 ---
@@ -15,6 +16,7 @@
 Vá para: https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa/actions
 
 **Deve mostrar:**
+
 - 🔄 **Workflow "🔍 CI - Quality Assurance"** executando
 - ✅ Jobs: quality-checks → build-verification → security-audit
 
@@ -24,7 +26,7 @@ Vá para: https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa/act
 🔍 CI - Quality Assurance
 ├── 🧪 Quality Checks
 │   ├── ✅ Lint check
-│   ├── ✅ Format check  
+│   ├── ✅ Format check
 │   ├── ✅ Type check
 │   ├── ✅ Tests (35 passing)
 │   └── ✅ Coverage report
@@ -40,14 +42,17 @@ Vá para: https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa/act
 **Possíveis problemas e soluções:**
 
 ❌ **"pnpm not found"**
+
 - O workflow está configurado para instalar pnpm automaticamente
 - Se falhar, verifique se `packageManager` está no package.json
 
-❌ **"Tests failing"**  
+❌ **"Tests failing"**
+
 - Improvável, pois testamos localmente
 - Pode ser problema de timeout ou dependências
 
 ❌ **"Build failing"**
+
 - Também improvável, build local funcionou
 - Verificar se todas as dependências estão no package.json
 
@@ -63,12 +68,13 @@ Vá para: https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa/act
    - Configure projeto
 
 2. **Configure os Secrets** no GitHub:
+
    ```
    Settings → Secrets and variables → Actions
-   
+
    Adicione:
    - VERCEL_TOKEN
-   - VERCEL_ORG_ID  
+   - VERCEL_ORG_ID
    - VERCEL_PROJECT_ID
    ```
 
@@ -87,7 +93,7 @@ Se algo falhar, teste localmente:
 pnpm install --frozen-lockfile
 pnpm lint
 pnpm format:check
-pnpm type-check  
+pnpm type-check
 pnpm test:run
 pnpm build
 
