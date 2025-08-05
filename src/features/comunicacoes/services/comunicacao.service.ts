@@ -5,7 +5,7 @@ import type {
 import mockComunicacoes from "./data";
 
 // Simula delay de rede
-const simulateDelay = (ms: number = 500) =>
+const simulateDelay = (ms: number = 1000) =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
 export async function fetchComunicacoes(): Promise<Comunicacao[]> {

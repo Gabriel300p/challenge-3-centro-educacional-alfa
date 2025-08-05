@@ -9,11 +9,10 @@ import {
   ModalComunicacao,
   ModalDeleteConfirm,
 } from "../components/_index";
-import { CommunicationTableSkeleton } from "../components/skeletons";
+import { CommunicationTableSkeleton } from "../components/skeletons/_index";
 import { useComunicacoes, useModals, useSearch } from "../hooks/_index";
 import type { ComunicacaoForm } from "../schemas/comunicacao.schemas";
 
-// ✅ Simplified ComunicacoesPage without infinite loops
 export default function ComunicacoesPage() {
   const {
     comunicacoes,
@@ -78,7 +77,7 @@ export default function ComunicacoesPage() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: "easeIn" }}
       className="mx-auto space-y-6 rounded-xl bg-white p-8 shadow-lg"
     >
       {/* Header - renderiza imediatamente com animação */}
@@ -131,7 +130,7 @@ export default function ComunicacoesPage() {
               key="table"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0.5 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              transition={{ duration: 0.5, ease: "linear" }}
             >
               <DataTable columns={columns} data={filteredComunicacoes} />
             </motion.div>

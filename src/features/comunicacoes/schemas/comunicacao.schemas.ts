@@ -52,7 +52,7 @@ export const comunicacaoFormSchema = z.object({
 
 // 🎯 Schema para criação (igual ao form, mas pode ter id opcional para otimistic updates)
 export const comunicacaoCreateSchema = comunicacaoFormSchema.extend({
-  id: z.string().optional(), // Para otimistic updates
+  id: z.string().optional(),
 });
 
 // 🎯 Schema para atualização (todos os campos opcionais exceto pelo menos um)
