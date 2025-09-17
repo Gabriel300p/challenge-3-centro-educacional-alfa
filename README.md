@@ -6,52 +6,47 @@ Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development
 
 ## ✨ Funcionalidades Implementadas
 
-### 🔐 Autenticação
-
-- **Página de Login**: Interface de autenticação para professores
-- **Controle de acesso**: Proteção de rotas administrativas
+### 🔐 Autenticação e Autorização
+- **Página de Login**: Interface de autenticação para professores e alunos.
+- **Controle de acesso**: Proteção de rotas administrativas. Apenas **professores** podem criar, editar e excluir posts.
+- **Personalização da Interface**: A barra superior exibe o e-mail do usuário logado.
 
 ### 📝 Gestão de Comunicações
-
-- **Lista de Postagens**: Visualização de todas as comunicações com título, autor e descrição
-- **Busca e Filtros**: Campo de busca para filtrar comunicações por palavras-chave
-- **Criação de Postagens**: Formulário para criação de novas comunicações
-- **Edição de Postagens**: Formulário para edição de comunicações existentes
-- **Exclusão de Postagens**: Funcionalidade para remover comunicações
+- **Lista de Postagens**: Visualização de todas as comunicações com título, autor e descrição.
+- **Visualização de Post Completo**: Ao clicar no título de um post, o usuário é redirecionado para uma página com o conteúdo completo.
+- **Busca e Filtros**: Campo de busca para filtrar comunicações por palavras-chave.
+- **Criação de Postagens**: Formulário para criação de novas comunicações (**apenas professores**).
+- **Edição de Postagens**: Formulário para edição de comunicações existentes (**apenas professores**).
+- **Exclusão de Postagens**: Funcionalidade para remover comunicações (**apenas professores**).
 
 ### 📱 Interface Responsiva
-
-- **Design Adaptativo**: Interface otimizada para desktop, tablet e mobile
-- **Componentes Reutilizáveis**: Sistema de design consistente
-- **Experiência de Usuário**: Interface intuitiva e acessível
+- **Design Adaptativo**: Interface otimizada para desktop, tablet e mobile.
+- **Componentes Reutilizáveis**: Sistema de design consistente.
+- **Experiência de Usuário**: Interface intuitiva e acessível.
 
 ## 🛠️ Tecnologias Utilizadas
 
 ### Core
-
-- **React 19.1.0**: Biblioteca principal para construção da interface
-- **TypeScript**: Tipagem estática para maior segurança e produtividade
-- **Vite 7.0.4**: Build tool moderna e rápida
+- **React 19.1.0**: Biblioteca principal para construção da interface.
+- **TypeScript**: Tipagem estática para maior segurança e produtividade.
+- **Vite 7.0.4**: Build tool moderna e rápida.
 
 ### Estilização
-
-- **TailwindCSS 4.1.11**: Framework CSS utilitário para estilização
-- **Radix UI**: Componentes acessíveis e customizáveis
-- **Phosphorn Icons**: Biblioteca de ícones
+- **TailwindCSS 4.1.11**: Framework CSS utilitário para estilização.
+- **Radix UI**: Componentes acessíveis e customizáveis.
+- **Phosphorn Icons**: Biblioteca de ícones.
 
 ### Gerenciamento de Estado
-
-- **React Query 5.83.0**: Gerenciamento de estado do servidor e cache
-- **React Hooks**: Gerenciamento de estado local
+- **React Query 5.83.0**: Gerenciamento de estado do servidor e cache.
+- **React Hooks**: Gerenciamento de estado local.
 
 ### Roteamento
-
-- **React Router DOM 7.7.1**: Navegação entre páginas
+- **React Router DOM 7.7.1**: Navegação entre páginas.
 
 ### Outras Bibliotecas
-
-- **React Table 8.21.3**: Tabelas interativas e responsivas
-- **Date-fns**: Manipulação e formatação de datas
+- **React Table 8.21.3**: Tabelas interativas e responsivas.
+- **Date-fns**: Manipulação e formatação de datas.
+- **jwt-decode**: Decodificação de tokens JWT no frontend.
 
 ## 🏗️ Arquitetura da Aplicação
 
@@ -59,40 +54,40 @@ Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development
 
 ```
 src/
-├── components/           # Componentes reutilizáveis
-│   ├── ui/              # Componentes básicos de UI
-│   ├── layout/          # Componentes de layout
-│   └── common/          # Componentes comuns
-├── pages/               # Páginas da aplicação
-│   ├── comunicacoes/    # Módulo de comunicações
-│   │   ├── components/  # Componentes específicos
-│   │   ├── hooks/       # Hooks customizados
-│   │   └── services/    # Serviços e dados
-│   └── LoginPage.tsx    # Página de login
-├── types/               # Definições de tipos TypeScript
-├── lib/                 # Utilitários e configurações
-└── assets/              # Recursos estáticos
+├── components/
+│   ├── ui/
+│   ├── layout/
+│   └── common/
+├── context/
+│   └── AuthContext.tsx
+├── pages/
+│   ├── comunicacoes/
+│   ├── login/
+│   └── posts/
+├── providers/
+│   ├── AuthProvider.tsx
+│   └── useAuth.tsx
+├── services/
+├── types/
+└── assets/
 ```
-
 ### Padrões Arquiteturais
-
-- **Feature-Based Architecture**: Organização por funcionalidades
-- **Component Composition**: Componentes reutilizáveis e compostos
-- **Custom Hooks**: Lógica de negócio encapsulada
-- **Service Layer**: Camada de serviços para integração com dados
+- **Feature-Based Architecture**: Organização por funcionalidades.
+- **Component Composition**: Componentes reutilizáveis e compostos.
+- **Custom Hooks**: Lógica de negócio encapsulada.
+- **Service Layer**: Camada de serviços para integração com dados.
 
 ## 🚀 Setup Inicial
 
 ### Pré-requisitos
-
 - Node.js 18+
 - npm ou yarn
+- **Backend em execução**: Este frontend depende de um backend rodando na porta 3000. Certifique-se de que o backend esteja configurado e online.
 
 ### Instalação
-
 ```bash
 # Clone o repositório
-git clone https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa.git
+git clone [https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa.git](https://github.com/Gabriel300p/challenge-3-centro-educacional-alfa.git)
 
 # Navegue até o diretório
 cd challenge-3-centro-educacional-alfa
@@ -102,166 +97,54 @@ npm install
 
 # Execute o projeto em modo de desenvolvimento
 npm run dev
-```
+Scripts Disponíveis
+Bash
 
-### Scripts Disponíveis
+npm run dev      # Executa em modo de desenvolvimento
+npm run build    # Gera build de produção
+npm run preview  # Visualiza build de produção
+npm run lint     # Executa linting do código
 
-```bash
-npm run dev      # Executa em modo de desenvolvimento
-npm run build    # Gera build de produção
-npm run preview  # Visualiza build de produção
-npm run lint     # Executa linting do código
-```
 
-## 💻 Guia de Uso
+💻 Guia de Uso
+1. Acesso ao Sistema
+Acesse a aplicação em http://localhost:5173. Você será redirecionado para a página de login.
 
-### 1. Acesso ao Sistema
+Use as credenciais de teste fornecidas pelo backend para fazer login:
 
-- Acesse a aplicação através da rota `/login`
-- Use as credenciais de professor para fazer login
-- Após autenticação, você será redirecionado para a página de comunicações
+Professor: professor@alfa.com / senha123
 
-### 2. Visualização de Comunicações
+Aluno: aluno@alfa.com / senha123
 
-- A página principal exibe todas as comunicações em formato de tabela
-- Use o campo de busca para filtrar por título, autor, tipo ou descrição
-- Visualize informações como título, autor, tipo, datas de criação e atualização
+2. Visualização de Comunicações
+A página principal exibe todas as comunicações em formato de tabela.
 
-### 3. Criação de Comunicações
+Clique no título de um post para ver seu conteúdo completo em uma página dedicada.
 
-- Clique no botão "Nova Comunicação"
-- Preencha os campos obrigatórios: título, autor, tipo e descrição
-- Clique em "Adicionar" para salvar
+Use o campo de busca para filtrar por título, autor, tipo ou descrição.
 
-### 4. Edição de Comunicações
+3. Ações Administrativas (Apenas Professores)
+O botão "Nova Comunicação" e as colunas de "Ações" (editar/excluir) são visíveis apenas para usuários com perfil de professor.
 
-- Clique no ícone de edição na linha da comunicação desejada
-- Modifique os campos necessários
-- Clique em "Editar" para salvar as alterações
+A aplicação impedirá que um aluno tente acessar essas funcionalidades.
 
-### 5. Exclusão de Comunicações
+🎨 Sistema de Design
+Paleta de Cores: Tons de azul para elementos principais.
 
-- Clique no ícone de exclusão na linha da comunicação desejada
-- Confirme a exclusão no modal de confirmação
+Tipografia: Fonte Inter.
 
-## 🎨 Sistema de Design
+Componentes: Botões, formulários, tabelas e modais consistentes.
 
-### Paleta de Cores
+🔒 Segurança e Autenticação
+Controle de Acesso: Rotas administrativas e botões de ação são protegidos por autorização.
 
-- **Primária**: Tons de azul para elementos principais
-- **Secundária**: Cinza para elementos neutros
-- **Status**: Verde, amarelo e vermelho para estados específicos
+Validação de Dados: Validação de formulários no frontend.
 
-### Tipografia
+🧪 Testes e Qualidade
+Ferramentas: ESLint, TypeScript e Prettier.
 
-- **Fonte Principal - Inter**: Sistema padrão otimizada para legibilidade
-- **Hierarquia**: Diferentes pesos e tamanhos para organização visual
+👥 Equipe de Desenvolvimento
+Este projeto foi desenvolvido como parte do Tech Challenge da Pós-Tech Frontend Engineering.
 
-### Componentes
-
-- **Botões**: Variações de tamanho e estilo
-- **Formulários**: Campos consistentes e validação visual
-- **Tabelas**: Layout responsivo com ordenação e paginação
-- **Modais**: Sobreposições para ações importantes
-
-### Operações CRUD
-
-- **GET /comunicacoes**: Buscar todas as comunicações
-- **POST /comunicacoes**: Criar nova comunicação
-- **PUT /comunicacoes/:id**: Atualizar comunicação existente
-- **DELETE /comunicacoes/:id**: Excluir comunicação
-
-### Gerenciamento de Estado
-
-- Utilização do React Query para cache e sincronização
-- Estados de loading, error e success
-- Invalidação automática após mutações
-
-## 📱 Responsividade
-
-### Breakpoints
-
-- **Mobile**: < 768px
-- **Tablet**: 768px - 1024px
-- **Desktop**: > 1024px
-
-### Adaptações por Dispositivo
-
-- **Mobile**: Layout em coluna única, navegação simplificada
-- **Tablet**: Layout híbrido, tabelas com scroll horizontal
-- **Desktop**: Layout completo, todas as funcionalidades visíveis
-
-## 🔒 Segurança e Autenticação
-
-### Controle de Acesso
-
-- Rotas protegidas para funcionalidades administrativas
-- Validação de autenticação em componentes sensíveis
-- Redirecionamento automático para login quando necessário
-
-### Validação de Dados
-
-- Validação de formulários no frontend
-- Sanitização de entradas do usuário
-- Feedback visual para erros de validação
-
-## 🧪 Testes e Qualidade
-
-### Ferramentas de Qualidade
-
-- **ESLint**: Análise estática de código
-- **TypeScript**: Verificação de tipos
-- **Prettier**: Formatação consistente de código
-
-### Boas Práticas
-
-- Componentização adequada
-- Hooks customizados para lógica reutilizável
-- Tipagem forte com TypeScript
-- Convenções de nomenclatura consistentes
-
-## 🚀 Deploy e Produção
-
-### Build de Produção
-
-```bash
-npm run build
-```
-
-### Otimizações
-
-- Code splitting automático
-- Compressão de assets
-- Otimização de imagens
-- Minificação de código
-
-## 📝 Considerações Técnicas
-
-### Performance
-
-- Lazy loading de componentes
-- Memoização de componentes pesados
-- Otimização de re-renders
-- Cache inteligente com React Query
-
-### Acessibilidade
-
-- Componentes Radix UI com acessibilidade nativa
-- Labels apropriados em formulários
-- Navegação por teclado
-- Contraste adequado de cores
-
-### Manutenibilidade
-
-- Código modular e reutilizável
-- Documentação inline
-- Estrutura de pastas organizada
-- Separação clara de responsabilidades
-
-## 👥 Equipe de Desenvolvimento
-
-Este projeto foi desenvolvido como parte do Tech Challenge da Pós-Tech Frontend Engineering, focando na criação de uma solução robusta e escalável para o gerenciamento de comunicações educacionais.
-
-## 📄 Licença
-
+📄 Licença
 Este projeto é desenvolvido para fins educacionais como parte do programa de Pós-Graduação em Full Stack Development.

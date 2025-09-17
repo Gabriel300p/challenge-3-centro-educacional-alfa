@@ -1,54 +1,90 @@
 import type { Comunicacao, ComunicacaoForm } from "@/types";
-import mockComunicacoes from "./data";
 
-// Simula delay de rede
-const simulateDelay = (ms: number = 500) =>
-  new Promise((resolve) => setTimeout(resolve, ms));
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+
+
+type Post = {
+  _id: string;
+  title: string;
+  content: string;
+  author: string;
+  createdAt: string;
+  __v?: number;
+};
+
+
+function mapPostToComunicacao(post: Post): Comunicacao {
+  return {
+    id: post._id,
+    titulo: post.title,
+    autor: post.author,
+    tipo: "Comunicado", 
+    descricao: post.content,
+    dataCriacao: new Date(post.createdAt),
+    dataAtualizacao: new Date(post.createdAt), 
+  };
+}
+
 
 export async function fetchComunicacoes(): Promise<Comunicacao[]> {
-  await simulateDelay();
-  return [...mockComunicacoes];
+  const response = await fetch(`${API_URL}/posts`);
+  if (!response.ok) throw new Error("Erro ao buscar comunicações");
+  const posts: Post[] = await response.json();
+  return posts.map(mapPostToComunicacao);
 }
 
+
 export async function createComunicacao(
-  data: ComunicacaoForm
+  data: ComunicacaoForm,
+  token: string 
 ): Promise<Comunicacao> {
-  await simulateDelay();
-  const newComunicacao: Comunicacao = {
-    id: Date.now().toString(),
-    ...data,
-    dataCriacao: new Date(),
-    dataAtualizacao: new Date(),
-  };
-  mockComunicacoes.push(newComunicacao);
-  return newComunicacao;
+  const response = await fetch(`${API_URL}/posts`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}` 
+    },
+    body: JSON.stringify({
+      title: data.titulo,
+      content: data.descricao,
+      author: data.autor,
+    }),
+  });
+  if (!response.ok) throw new Error("Erro ao criar comunicação");
+  const post: Post = await response.json();
+  return mapPostToComunicacao(post);
 }
+
 
 export async function updateComunicacao(
   id: string,
-  data: ComunicacaoForm
+  data: ComunicacaoForm,
+  token: string 
 ): Promise<Comunicacao> {
-  await simulateDelay();
-  const index = mockComunicacoes.findIndex((c) => c.id === id);
-  if (index === -1) {
-    throw new Error("Comunicação não encontrada");
-  }
-
-  const updatedComunicacao: Comunicacao = {
-    ...mockComunicacoes[index],
-    ...data,
-    dataAtualizacao: new Date(),
-  };
-
-  mockComunicacoes[index] = updatedComunicacao;
-  return updatedComunicacao;
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({
+      title: data.titulo,
+      content: data.descricao,
+      author: data.autor,
+    }),
+  });
+  if (!response.ok) throw new Error("Erro ao atualizar comunicação");
+  const post: Post = await response.json();
+  return mapPostToComunicacao(post);
 }
 
-export async function deleteComunicacao(id: string): Promise<void> {
-  await simulateDelay();
-  const index = mockComunicacoes.findIndex((c) => c.id === id);
-  if (index === -1) {
-    throw new Error("Comunicação não encontrada");
-  }
-  mockComunicacoes.splice(index, 1);
+
+export async function deleteComunicacao(id: string, token: string): Promise<void> {
+  const response = await fetch(`${API_URL}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${token}` 
+    }
+  });
+  if (!response.ok) throw new Error("Erro ao deletar comunicação");
 }

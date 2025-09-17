@@ -1,11 +1,15 @@
-import type { ComunicacaoForm } from "@/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   createComunicacao,
   deleteComunicacao,
   fetchComunicacoes,
   updateComunicacao,
 } from "../services/comunicacao.service";
+import type { ComunicacaoForm } from "@/types";
 
 export function useComunicacoes() {
   const queryClient = useQueryClient();
@@ -20,22 +24,24 @@ export function useComunicacoes() {
   });
 
   const createMutation = useMutation({
-    mutationFn: createComunicacao,
+    mutationFn: ({ data, token }: { data: ComunicacaoForm; token: string }) =>
+      createComunicacao(data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comunicacoes"] });
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }: { id: string; data: ComunicacaoForm }) =>
-      updateComunicacao(id, data),
+    mutationFn: ({ id, data, token }: { id: string; data: ComunicacaoForm; token: string }) =>
+      updateComunicacao(id, data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comunicacoes"] });
     },
   });
 
   const deleteMutation = useMutation({
-    mutationFn: deleteComunicacao,
+    mutationFn: ({ id, token }: { id: string; token: string }) =>
+      deleteComunicacao(id, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["comunicacoes"] });
     },
@@ -45,10 +51,15 @@ export function useComunicacoes() {
     comunicacoes,
     isLoading,
     error,
-    createComunicacao: createMutation.mutateAsync,
-    updateComunicacao: (id: string, data: ComunicacaoForm) =>
-      updateMutation.mutateAsync({ id, data }),
-    deleteComunicacao: deleteMutation.mutateAsync,
+   
+    createComunicacao: ({ data, token }: { data: ComunicacaoForm; token: string }) =>
+      createMutation.mutateAsync({ data, token }),
+    
+    updateComunicacao: ({ id, data, token }: { id: string; data: ComunicacaoForm; token: string }) =>
+      updateMutation.mutateAsync({ id, data, token }),
+  
+    deleteComunicacao: ({ id, token }: { id: string; token: string }) =>
+      deleteMutation.mutateAsync({ id, token }),
     isCreating: createMutation.isPending,
     isUpdating: updateMutation.isPending,
     isDeleting: deleteMutation.isPending,

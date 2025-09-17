@@ -9,6 +9,8 @@ import {
   ModalDeleteConfirm,
 } from "./components";
 import { useComunicacoes, useModals, useSearch } from "./hooks";
+import { useAuth } from "../../providers/useAuth";
+import { toast } from "react-toastify";
 
 export function ComunicacoesPage() {
   const {
@@ -33,25 +35,48 @@ export function ComunicacoesPage() {
 
   const { filteredComunicacoes, handleSearch } = useSearch(comunicacoes);
 
+  const { token, isAuthenticated, user } = useAuth();
+
+  const handleOpenAddModal = () => {
+    if (!isAuthenticated || user?.role !== 'professor') {
+      toast.error("Você precisa ser um professor para adicionar uma nova comunicação.");
+      return;
+    }
+    openAddModal();
+  };
+
   const handleSaveNew = async (data: ComunicacaoForm) => {
-    await createComunicacao(data);
+    if (!token) {
+      toast.error("Token de autenticação não encontrado.");
+      return;
+    }
+    await createComunicacao({ data, token });
   };
 
   const handleSaveEdit = async (data: ComunicacaoForm) => {
     if (selectedComunicacao) {
-      await updateComunicacao(selectedComunicacao.id, data);
+      if (!token) {
+        toast.error("Token de autenticação não encontrado.");
+        return;
+      }
+      await updateComunicacao({ id: selectedComunicacao.id, data, token });
     }
   };
 
   const handleConfirmDelete = async () => {
     if (selectedComunicacao) {
-      await deleteComunicacao(selectedComunicacao.id);
+      if (!token) {
+        toast.error("Token de autenticação não encontrado.");
+        return;
+      }
+      await deleteComunicacao({ id: selectedComunicacao.id, token });
     }
   };
 
   const columns = createColumns({
     onEdit: openEditModal,
     onDelete: openDeleteModal,
+    canEditOrDelete: user?.role === 'professor'
   });
 
   if (isLoading) {
@@ -75,7 +100,6 @@ export function ComunicacoesPage() {
 
   return (
     <div className="mx-auto p-8 space-y-6 bg-white rounded-xl shadow-lg">
-      {/* Header simples */}
       <div className="flex justify-between items-center">
         <div>
           <span className="text-sm font-medium text-primary underline">
@@ -83,18 +107,19 @@ export function ComunicacoesPage() {
           </span>
           <h1 className="text-2xl font-bold text-gray-900">Comunicações</h1>
         </div>
-        <Button
-          onClick={openAddModal}
-          size="default"
-          className="flex items-center gap-1.5 px-3.5 py-3 rounded-md hover:opacity-80 transition-opacity duration-300"
-        >
-          <PlusCircleIcon weight="fill" className="size-5" />
-          <span className="hidden sm:block">Nova Comunicação</span>
-        </Button>
+        {user?.role === 'professor' && (
+          <Button
+            onClick={handleOpenAddModal}
+            size="default"
+            className="flex items-center gap-1.5 px-3.5 py-3 rounded-md hover:opacity-80 transition-opacity duration-300"
+          >
+            <PlusCircleIcon weight="fill" className="size-5" />
+            <span className="hidden sm:block">Nova Comunicação</span>
+          </Button>
+        )}
       </div>
       <Divider />
       <div className="space-y-4">
-        {/* Busca simples */}
         <div className="w-full max-w-sm">
           <input
             type="text"
@@ -103,18 +128,14 @@ export function ComunicacoesPage() {
             className="w-full px-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary"
           />
         </div>
-
-        {/* Tabela */}
         <DataTable columns={columns} data={filteredComunicacoes} />
       </div>
-      {/* Modais */}
       <ModalComunicacao
         isOpen={isAddModalOpen}
         onClose={closeAllModals}
         onSave={handleSaveNew}
         isEditing={false}
       />
-
       <ModalComunicacao
         isOpen={isEditModalOpen}
         onClose={closeAllModals}
@@ -122,7 +143,6 @@ export function ComunicacoesPage() {
         comunicacao={selectedComunicacao}
         isEditing={true}
       />
-
       <ModalDeleteConfirm
         isOpen={isDeleteModalOpen}
         onClose={closeAllModals}

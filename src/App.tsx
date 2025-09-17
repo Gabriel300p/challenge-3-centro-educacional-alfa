@@ -8,6 +8,9 @@ import {
 import { MainLayout } from "./components/layout";
 import { ComunicacoesPage } from "./pages/comunicacoes/ComunicacoesPage";
 import { LoginPage } from "./pages/login/LoginPage";
+import { AuthProvider } from "./providers/AuthProvider";
+import { PrivateRoute } from "./components/common/PrivateRoute";
+import { PostDetailsPage } from "./pages/postdetails/PostDetailsPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,22 +25,24 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <Routes>
-          {/* Rota de login sem layout */}
-          <Route path="/login" element={<LoginPage />} />
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
 
-          {/* Rotas com layout */}
-          <Route
-            path="/comunicacoes"
-            element={
-              <MainLayout>
-                <ComunicacoesPage />
-              </MainLayout>
-            }
-          />
-
-          <Route path="/" element={<Navigate to="/login" replace />} />
-        </Routes>
+            <Route
+              path="/posts"
+              element={
+                <PrivateRoute>
+                  <MainLayout>
+                    <ComunicacoesPage />
+                  </MainLayout>
+                </PrivateRoute>
+              }
+            />
+             <Route path="/posts/:id" element={<PostDetailsPage />} />
+            <Route path="/" element={<Navigate to="/login" replace />} />
+          </Routes>
+        </AuthProvider>
       </Router>
     </QueryClientProvider>
   );

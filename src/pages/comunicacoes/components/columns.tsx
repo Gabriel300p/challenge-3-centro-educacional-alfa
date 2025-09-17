@@ -5,15 +5,19 @@ import { PencilSimpleLineIcon, XCircleIcon } from "@phosphor-icons/react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { Link } from "react-router-dom"; 
+
 
 interface ColumnsProps {
   onEdit: (comunicacao: Comunicacao) => void;
   onDelete: (comunicacao: Comunicacao) => void;
+  canEditOrDelete?: boolean; 
 }
 
 export const createColumns = ({
   onEdit,
   onDelete,
+  canEditOrDelete = false, 
 }: ColumnsProps): ColumnDef<Comunicacao>[] => [
   {
     accessorKey: "titulo",
@@ -23,8 +27,10 @@ export const createColumns = ({
       </TableSort>
     ),
     cell: ({ row }) => (
-      <div className="ml-5 font-medium text-primary cursor-pointer hover:text-primary/80">
-        {row.getValue("titulo")}
+      <div className="ml-5 font-medium text-primary hover:text-primary/80">
+        <Link to={`/posts/${row.original.id}`} className="hover:underline">
+          {row.getValue("titulo")}
+        </Link>
       </div>
     ),
   },
@@ -51,17 +57,16 @@ export const createColumns = ({
     ),
     cell: ({ row }) => {
       const tipo = row.getValue("tipo") as string;
-
-      // Definir cores baseadas no tipo
       const getTypeStyles = (tipo: string) => {
         switch (tipo) {
           case "Comunicado":
             return "bg-sky-100 text-sky-700";
           case "Aviso":
             return "bg-yellow-100 text-yellow-700";
+          default:
+            return "bg-gray-100 text-gray-700";
         }
       };
-
       return (
         <div className="flex justify-center">
           <span
@@ -110,9 +115,13 @@ export const createColumns = ({
   {
     id: "actions",
     header: "Ações",
-    size: 120, // Define uma largura fixa para a coluna
+    size: 120,
     cell: ({ row }) => {
       const comunicacao = row.original;
+
+      if (!canEditOrDelete) {
+        return null;
+      }
 
       return (
         <div className="flex items-center justify-center">
