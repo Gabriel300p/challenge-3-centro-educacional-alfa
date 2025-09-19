@@ -4,6 +4,13 @@
 
 Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development e consiste em uma aplicação web responsiva para gerenciamento de comunicações educacionais. O sistema permite que professores e administradores criem, editem e gerenciem postagens e avisos para a comunidade escolar.
 
+---
+
+### Dependência do Backend
+Este frontend é o cliente para uma aplicação completa. Para rodá-lo, é necessário que o backend correspondente esteja em execução. Certifique-se de que o backend, disponível em [https://github.com/Stiverson/blog-backend-v2](https://github.com/Stiverson/blog-backend-v2), esteja configurado e online.
+
+---
+
 ## ✨ Funcionalidades Implementadas
 
 ### 🔐 Autenticação e Autorização
@@ -12,7 +19,7 @@ Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development
 - **Personalização da Interface**: A barra superior exibe o e-mail do usuário logado.
 
 ### 📝 Gestão de Comunicações
-- **Lista de Postagens**: Visualização de todas as comunicações com título, autor e descrição.
+- **Lista de Postagens**: Visualização de todas as comunicações em formato de tabela.
 - **Visualização de Post Completo**: Ao clicar no título de um post, o usuário é redirecionado para uma página com o conteúdo completo.
 - **Busca e Filtros**: Campo de busca para filtrar comunicações por palavras-chave.
 - **Criação de Postagens**: Formulário para criação de novas comunicações (**apenas professores**).
@@ -51,7 +58,6 @@ Este projeto faz parte do **Tech Challenge** da Pós-Tech Full Stack Development
 ## 🏗️ Arquitetura da Aplicação
 
 ### Estrutura de Pastas
-
 ```
 src/
 ├── components/
