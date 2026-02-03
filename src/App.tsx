@@ -11,6 +11,9 @@ import { LoginPage } from "./pages/login/LoginPage";
 import { AuthProvider } from "./providers/AuthProvider";
 import { PrivateRoute } from "./components/common/PrivateRoute";
 import { PostDetailsPage } from "./pages/postdetails/PostDetailsPage";
+import { AulasPage } from "./pages/aulas/AulasPage";
+import { NovaAulaPage } from "./pages/aulas/services/NovaAulaPage";
+import { AulaPresencaPage } from "./pages/aula-presenca/aulaPresencaPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -30,6 +33,17 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
 
             <Route
+              path="/inicio"
+              element={
+                <PrivateRoute>
+                  <MainLayout>
+                    <AulaPresencaPage />
+                  </MainLayout>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
               path="/posts"
               element={
                 <PrivateRoute>
@@ -39,7 +53,27 @@ function App() {
                 </PrivateRoute>
               }
             />
-             <Route path="/posts/:id" element={<PostDetailsPage />} />
+            <Route
+              path="/aulas"
+              element={
+                <PrivateRoute>
+                  <MainLayout>
+                    <AulasPage />
+                  </MainLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/aulas/nova"
+              element={
+                <PrivateRoute>
+                  <MainLayout>
+                    <NovaAulaPage />
+                  </MainLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route path="/posts/:id" element={<PostDetailsPage />} />
             <Route path="/" element={<Navigate to="/login" replace />} />
           </Routes>
         </AuthProvider>
