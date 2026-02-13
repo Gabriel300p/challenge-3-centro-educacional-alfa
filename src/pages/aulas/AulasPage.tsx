@@ -4,7 +4,7 @@ import { PlusCircleIcon } from "@phosphor-icons/react";
 import { DataTable } from "@/pages/comunicacoes/components/DataTable";
 import { useState } from "react";
 import { useAuth } from "../../providers/useAuth";
-import { columns } from "./components/columns";
+import { columns } from "../aulas/components/columns";
 import { useNavigate } from "react-router-dom";
 import { useAulaPresenca } from "../aula-presenca/hooks/useAulaPresenca";
 

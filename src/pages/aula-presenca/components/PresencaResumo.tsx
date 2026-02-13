@@ -1,7 +1,12 @@
+import type { Aula } from "../../aula-presenca/hooks/useAulaPresenca";
 
+interface PresencaResumoProps {
+  aula: Aula;
+}
 
-export function PresencaResumo({ totalStudents }: { totalStudents: number }) {
-  const presentes = 10;
+export function PresencaResumo({ aula }: PresencaResumoProps) {
+  const totalStudents = aula.students.length;
+  const presentes = aula.students.filter(student => student.status === "Presente").length;
   const porcentagem = totalStudents > 0 ? Math.round((presentes / totalStudents) * 100) : 0;
 
   return (

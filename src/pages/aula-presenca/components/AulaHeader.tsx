@@ -1,12 +1,13 @@
 import { ChalkboardTeacherIcon } from "@phosphor-icons/react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import type {Aula} from "../hooks/useAulaPresenca";
 
 interface AulaHeaderProps {
-  subject?: string;
+  aula: Aula;
 }
 
-export function AulaHeader({ subject }: AulaHeaderProps) {
+export function AulaHeader({ aula }: AulaHeaderProps) {
   const now = new Date();
 
   return (
@@ -18,7 +19,7 @@ export function AulaHeader({ subject }: AulaHeaderProps) {
         <div>
           <p className="text-sm text-slate-500 font-medium">Prof. {"Alberto"}</p>
           <h2 className="text-lg font-bold text-slate-800 uppercase tracking-tight">
-            Aula: {subject}
+            Aula: {aula.subject || "Sem título"}
           </h2>
         </div>
       </div>

@@ -5,11 +5,22 @@ const API_URL = import.meta.env.VITE_API_ATTENDANCE || "http://localhost:3003";
 export interface Aula {
   _id: string;      // ID do MongoDB
   subject: string;  // Nome da disciplina
+  teacherId: string; // ID do professor
   date: string;     // Data da aula
+  startTime: string; // Hora de início
+  endTime: string;   // Hora de término
+  toleranceMinutes: number; // Tolerância para atrasos
+  recurrence: string; // "sem recorrência", "semanal", "mensal"
+  contentAborted: string; // Indica se o conteúdo foi abortado
+  professorNotes: string; // Anotações do professor
+  tokenQRCode: string; // Token para geração do QR Code
+  status: string;   // "aguardando", "em_andamento", "finalizada"
+  actualStartTime: string; // Hora real de início
   students: {
     studentId: string;
     name: string;
     status: string;
+    id: string;
   }[];
 }
 
@@ -27,7 +38,7 @@ export function useAulaPresenca(token: string | null) {
           "Content-Type": "application/json"
         }
       });
-      
+
       const data = await response.json();
       setAulas(Array.isArray(data) ? data : []);
     } catch (error) {

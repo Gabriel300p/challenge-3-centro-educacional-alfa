@@ -1,4 +1,4 @@
-import { type AuthCredentials } from '@/types/auth'; 
+import { type AuthCredentials } from '@/types/auth';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3002';
 
@@ -7,6 +7,7 @@ export async function login(credentials: AuthCredentials): Promise<{ token: stri
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      
     },
     body: JSON.stringify(credentials),
   });
@@ -17,5 +18,8 @@ export async function login(credentials: AuthCredentials): Promise<{ token: stri
   }
 
   const data = await response.json();
+  localStorage.setItem('token', data.token);
+
+
   return data;
 }
