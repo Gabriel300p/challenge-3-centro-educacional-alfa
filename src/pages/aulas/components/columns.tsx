@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { QRCodeDialog } from "../../aula-presenca/components/QRCodeDialog";
 
 
 export const columns: ColumnDef<Aula>[] = [
@@ -119,15 +120,20 @@ export const columns: ColumnDef<Aula>[] = [
         return (
           <div className="flex items-center justify-center gap-1">
             {showQrCode && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-10 w-10 p-0 text-primary hover:text-primary/80 hover:bg-primary/10 transition-colors"
-                aria-label="Abrir QR Code"
-                onClick={() => console.log("Abrir QR Code:", row.original._id)}
+              <QRCodeDialog
+                attendanceId={row.original._id}
+                token={row.original.tokenQRCode}
+                subject={row.original.subject}
               >
-                <QrCodeIcon className="size-5" weight="fill" />
-              </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-10 w-10 p-0 text-primary hover:text-primary/80 hover:bg-primary/10 transition-colors"
+                  aria-label="Abrir QR Code"
+                >
+                  <QrCodeIcon className="size-5" weight="fill" />
+                </Button>
+              </QRCodeDialog>
             )}
 
             <Button

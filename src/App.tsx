@@ -14,6 +14,7 @@ import { PostDetailsPage } from "./pages/postdetails/PostDetailsPage";
 import { AulasPage } from "./pages/aulas/AulasPage";
 import { NovaAulaPage } from "./pages/aulas/services/NovaAulaPage";
 import { AulaPresencaPage } from "./pages/aula-presenca/aulaPresencaPage";
+import { ConfirmarPresenca } from "./pages/aula-presenca/components/ConfirmarPresenca";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -74,6 +75,7 @@ function App() {
               }
             />
             <Route path="/posts/:id" element={<PostDetailsPage />} />
+            <Route path="/presenca/confirmar" element={<ConfirmarPresenca />} />
             <Route path="/" element={<Navigate to="/login" replace />} />
           </Routes>
         </AuthProvider>

@@ -1,6 +1,7 @@
 import { CheckCircleIcon, PlayIcon, QrCodeIcon } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import type { Aula } from "../../aula-presenca/hooks/useAulaPresenca";
+import { QRCodeDialog } from "./QRCodeDialog";
 
 interface StatusCardProps {
   aula: Aula;
@@ -98,13 +99,18 @@ export function StatusCard({ aula }: StatusCardProps) {
           {current.action}
         </Button>
 
-        <Button
-          variant="outline"
-          className="border-slate-200 bg-white text-slate-700 flex gap-2 h-12 px-6 rounded-xl font-bold"
-          onClick={() => console.log("Abrir QR Code")}
+        <QRCodeDialog
+          attendanceId={aula._id}
+          token={aula.tokenQRCode}
+          subject={aula.subject}
         >
-          <QrCodeIcon size={20} weight="bold" />
-        </Button>
+          <Button
+            variant="outline"
+            className="border-slate-200 bg-white text-slate-700 flex gap-2 h-12 px-6 rounded-xl font-bold"
+          >
+            <QrCodeIcon size={20} weight="bold" />
+          </Button>
+        </QRCodeDialog>
       </div>
     </div>
   );
