@@ -43,7 +43,16 @@ function App() {
                 </PrivateRoute>
               }
             />
-
+            <Route
+              path="/aulas/:id/editar"
+              element={
+                <PrivateRoute>
+                  <MainLayout>
+                    <NovaAulaPage />
+                  </MainLayout>
+                </PrivateRoute>
+              }
+            />
             <Route
               path="/posts"
               element={

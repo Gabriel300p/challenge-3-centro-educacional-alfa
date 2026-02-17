@@ -1,30 +1,40 @@
 import { AlunoItem } from "./AlunoItem";
 import { UsersIcon } from "@phosphor-icons/react";
-
-interface Student {
-  studentId: string;
-  name: string;
-  status: string;
-}
+import type { Aula } from "../hooks/useAulaPresenca";
 
 interface ListaAlunosProps {
-  students: Student[];
+  alunos: Aula["students"];
+  attendanceId: string;
+  onTogglePresenca: (
+    attendanceId: string,
+    studentId: string
+  ) => void;
 }
 
-export function ListaAlunos({ students }: ListaAlunosProps) {
+export function ListaAlunos({
+  alunos,
+  attendanceId,
+  onTogglePresenca,
+}: ListaAlunosProps) {
   return (
     <div className="space-y-3 mt-4">
       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
-        <UsersIcon size={14} /> Lista de Alunos ({students.length})
+        <UsersIcon size={14} /> Lista de Alunos ({alunos.length})
       </p>
-      
+
       <div className="space-y-2">
-        {students.length > 0 ? (
-          students.map((student) => (
-            <AlunoItem 
-              key={student.studentId} 
-              name={student.name} 
-              status={student.status} 
+        {alunos.length > 0 ? (
+          alunos.map((student) => (
+            <AlunoItem
+              key={student.studentId}
+              name={student.name}
+              status={student.status}
+              onToggle={() =>
+                onTogglePresenca(
+                  attendanceId,
+                  student.studentId
+                )
+              }
             />
           ))
         ) : (

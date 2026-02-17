@@ -3,11 +3,14 @@ import { Button } from "@/components/ui/button";
 import type { Aula } from "../../aula-presenca/hooks/useAulaPresenca";
 import { QRCodeDialog } from "./QRCodeDialog";
 
+
+
 interface StatusCardProps {
   aula: Aula;
+  onStart?: (id: string) => void;
 }
 
-export function StatusCard({ aula }: StatusCardProps) {
+export function StatusCard({ aula, onStart }: StatusCardProps) {
   const presentes = aula.students.filter(
     (s) => s.status === "Presente"
   ).length;
@@ -71,8 +74,8 @@ export function StatusCard({ aula }: StatusCardProps) {
     status === "em_andamento"
       ? config.em_andamento
       : pronto
-      ? config.pronto
-      : config.aguardando;
+        ? config.pronto
+        : config.aguardando;
 
   return (
     <div
@@ -93,7 +96,7 @@ export function StatusCard({ aula }: StatusCardProps) {
       <div className="flex gap-3">
         <Button
           className={`${current.variant} text-white flex-1 flex gap-2 h-12 rounded-xl font-bold`}
-          onClick={() => {}}
+          onClick={() => onStart?.(aula._id)}
         >
           <PlayIcon size={20} weight="fill" />
           {current.action}

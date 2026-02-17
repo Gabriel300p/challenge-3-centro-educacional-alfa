@@ -56,11 +56,7 @@ export function AulasPage() {
         ) : (
           <DataTable
             data={filteredAulas}
-            columns={columns(
-              (id) => navigate(`/aulas/${id}/editar`),
-              (id) => console.log("Excluir aula:", id),
-              (id) => console.log("Abrir QR Code:", id)
-            )}
+            columns={columns}
           />
         )}
       </div>

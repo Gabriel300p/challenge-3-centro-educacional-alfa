@@ -1,14 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Divider from "@/components/ui/divider";
 import { useAuth } from "../../../providers/useAuth";
+import { useAulaPresenca } from "../../aula-presenca/hooks/useAulaPresenca";
 import {
   FloppyDiskBackIcon,
   XCircleIcon,
 } from "@phosphor-icons/react";
-
-
 
 export function Input({ label, required, ...props }: any) {
   return (
@@ -51,11 +50,13 @@ export function Select({ label, options = [], required, ...props }: any) {
   );
 }
 
-
-
 export function NovaAulaPage() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const { user, token } = useAuth();
+  const { aulas } = useAulaPresenca(token);
+
+  const isEditMode = !!id;
 
   const [loading, setLoading] = useState(false);
 
@@ -73,6 +74,30 @@ export function NovaAulaPage() {
   const handleChange = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
+
+  // 🔥 PREENCHER CAMPOS SE FOR EDIÇÃO (SEM CHAMAR BACKEND)
+  useEffect(() => {
+    if (!id || !aulas.length) return;
+
+    const aula = aulas.find((a) => a._id === id);
+    if (!aula) return;
+
+    setForm({
+      subject: aula.subject || "",
+      date: aula.date ? aula.date.slice(0, 10) : "",
+      startTime: aula.startTime
+        ? aula.startTime.slice(11, 16)
+        : "",
+      endTime: aula.endTime
+        ? aula.endTime.slice(11, 16)
+        : "",
+      toleranceMinutes:
+        aula.toleranceMinutes?.toString() || "",
+      recurrence: aula.recurrence || "",
+      contentAborted: aula.contentAborted || "",
+      professorNotes: aula.professorNotes || "",
+    });
+  }, [id, aulas]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,9 +120,11 @@ export function NovaAulaPage() {
       };
 
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/attendance`,
+        `${import.meta.env.VITE_API_ATTENDANCE}/api/attendance${
+          isEditMode ? `/${id}` : ""
+        }`,
         {
-          method: "POST",
+          method: isEditMode ? "PUT" : "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
@@ -107,7 +134,7 @@ export function NovaAulaPage() {
       );
 
       if (!response.ok) {
-        throw new Error("Erro ao criar aula");
+        throw new Error("Erro ao salvar aula");
       }
 
       navigate("/aulas");
@@ -122,11 +149,12 @@ export function NovaAulaPage() {
   return (
     <div className="mx-auto p-8 bg-[#F8FAFC] min-h-screen">
       <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-6">
-
         <div className="flex justify-between items-start">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              Criar nova aula
+              {isEditMode
+                ? "Editar aula"
+                : "Criar nova aula"}
             </h1>
             <p className="text-sm text-slate-500">
               A aula será vinculada automaticamente aos seus alunos.
@@ -149,7 +177,11 @@ export function NovaAulaPage() {
               className="bg-[#0096C7] hover:bg-[#0077B6] text-white flex gap-2"
             >
               <FloppyDiskBackIcon size={20} weight="fill" />
-              {loading ? "Salvando..." : "Salvar aula"}
+              {loading
+                ? "Salvando..."
+                : isEditMode
+                ? "Salvar alterações"
+                : "Salvar aula"}
             </Button>
           </div>
         </div>
@@ -157,7 +189,6 @@ export function NovaAulaPage() {
         <Divider />
 
         <form onSubmit={handleSubmit} className="space-y-6">
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Input
               label="Título da aula"
@@ -174,11 +205,13 @@ export function NovaAulaPage() {
               type="number"
               value={form.toleranceMinutes}
               onChange={(e: any) =>
-                handleChange("toleranceMinutes", e.target.value)
+                handleChange(
+                  "toleranceMinutes",
+                  e.target.value
+                )
               }
             />
           </div>
-
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <Input
@@ -194,7 +227,11 @@ export function NovaAulaPage() {
             <Select
               label="Recorrência"
               required
-              options={["Sem recorrência", "Semanal", "Mensal"]}
+              options={[
+                "Sem recorrência",
+                "Semanal",
+                "Mensal",
+              ]}
               value={form.recurrence}
               onChange={(e: any) =>
                 handleChange("recurrence", e.target.value)
@@ -208,17 +245,25 @@ export function NovaAulaPage() {
               <div className="grid grid-cols-2 gap-2">
                 <input
                   type="time"
+                  value={form.startTime}
                   className="px-3 py-2 border border-slate-200 rounded-md"
                   onChange={(e) =>
-                    handleChange("startTime", e.target.value)
+                    handleChange(
+                      "startTime",
+                      e.target.value
+                    )
                   }
                   required
                 />
                 <input
                   type="time"
+                  value={form.endTime}
                   className="px-3 py-2 border border-slate-200 rounded-md"
                   onChange={(e) =>
-                    handleChange("endTime", e.target.value)
+                    handleChange(
+                      "endTime",
+                      e.target.value
+                    )
                   }
                   required
                 />
@@ -226,8 +271,6 @@ export function NovaAulaPage() {
             </div>
           </div>
 
-          {/* Conteúdo
-          Pedir ajuda para implementar */}
           <div>
             <label className="text-sm font-medium text-slate-700">
               Conteúdo abordado (Sumário)
@@ -235,26 +278,29 @@ export function NovaAulaPage() {
             </label>
             <textarea
               className="mt-2 w-full h-40 border border-slate-200 rounded-md p-3 text-sm"
-              placeholder="Digite o conteúdo da aula"
               value={form.contentAborted}
               onChange={(e) =>
-                handleChange("contentAborted", e.target.value)
+                handleChange(
+                  "contentAborted",
+                  e.target.value
+                )
               }
               required
             />
           </div>
 
-
           <div>
             <label className="text-sm font-medium text-slate-700">
-              Observações do professor (Opcional)
+              Observações do professor
             </label>
             <textarea
               className="mt-2 w-full h-28 border border-slate-200 rounded-md p-3 text-sm"
-              placeholder="Digite sua mensagem..."
               value={form.professorNotes}
               onChange={(e) =>
-                handleChange("professorNotes", e.target.value)
+                handleChange(
+                  "professorNotes",
+                  e.target.value
+                )
               }
             />
           </div>
