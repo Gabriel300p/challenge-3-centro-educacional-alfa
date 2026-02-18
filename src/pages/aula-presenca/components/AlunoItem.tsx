@@ -4,12 +4,14 @@ interface AlunoItemProps {
   name: string;
   status: "Presente" | "Ausente" | "Atrasado";
   onToggle: () => void;
+  disabled?: boolean;
 }
 
 export function AlunoItem({
   name,
   status,
   onToggle,
+  disabled = false,
 }: AlunoItemProps) {
   const isPresent = status === "Presente" || status === "Atrasado";
 
@@ -39,7 +41,8 @@ export function AlunoItem({
 
       <button
         onClick={onToggle}
-        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition ${
+        disabled={disabled}
+        className={`flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold transition disabled:opacity-60 disabled:cursor-not-allowed ${
           isPresent
             ? "border border-red-200 text-red-500 hover:bg-red-50"
             : "border border-green-200 text-green-600 hover:bg-green-50"

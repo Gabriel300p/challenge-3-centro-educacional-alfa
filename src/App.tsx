@@ -9,6 +9,7 @@ import { MainLayout } from "./components/layout";
 import { ComunicacoesPage } from "./pages/comunicacoes/ComunicacoesPage";
 import { LoginPage } from "./pages/login/LoginPage";
 import { AuthProvider } from "./providers/AuthProvider";
+import { useAuth } from "./providers/useAuth";
 import { PrivateRoute } from "./components/common/PrivateRoute";
 import { PostDetailsPage } from "./pages/postdetails/PostDetailsPage";
 import { AulasPage } from "./pages/aulas/AulasPage";
@@ -24,6 +25,12 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+function RootRedirect() {
+  const { isAuthenticated } = useAuth();
+
+  return <Navigate to={isAuthenticated ? "/inicio" : "/login"} replace />;
+}
 
 function App() {
   return (
@@ -85,7 +92,8 @@ function App() {
             />
             <Route path="/posts/:id" element={<PostDetailsPage />} />
             <Route path="/presenca/confirmar" element={<ConfirmarPresenca />} />
-            <Route path="/" element={<Navigate to="/login" replace />} />
+            <Route path="/" element={<RootRedirect />} />
+            <Route path="*" element={<RootRedirect />} />
           </Routes>
         </AuthProvider>
       </Router>

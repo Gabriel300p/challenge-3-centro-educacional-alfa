@@ -9,12 +9,14 @@ interface ListaAlunosProps {
     attendanceId: string,
     studentId: string
   ) => void;
+  readOnly?: boolean;
 }
 
 export function ListaAlunos({
   alunos,
   attendanceId,
   onTogglePresenca,
+  readOnly = false,
 }: ListaAlunosProps) {
   return (
     <div className="space-y-3 mt-4">
@@ -29,6 +31,7 @@ export function ListaAlunos({
               key={student.studentId}
               name={student.name}
               status={student.status}
+              disabled={readOnly}
               onToggle={() =>
                 onTogglePresenca(
                   attendanceId,

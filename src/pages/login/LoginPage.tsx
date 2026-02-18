@@ -30,7 +30,7 @@ export function LoginPage() {
 
       login(data.token);
 
-      const from = location.state?.from || "/posts";
+      const from = location.state?.from || "/inicio";
 
       toast.success("Login realizado com sucesso!");
       navigate(from, { replace: true });

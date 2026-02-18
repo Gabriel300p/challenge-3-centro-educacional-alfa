@@ -1,14 +1,36 @@
 import { ChalkboardTeacherIcon } from "@phosphor-icons/react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { BookOpenTextIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import type {Aula} from "../hooks/useAulaPresenca";
+import type { Aula } from "../hooks/useAulaPresenca";
 import { useAuth } from "../../../providers/useAuth";
 
 interface AulaHeaderProps {
-  aula: Aula;
+  aula?: Aula;
+  aulas: Aula[];
+  selectedAulaId: string;
+  onSelectAula: (aulaId: string) => void;
+  showClassFilter: boolean;
 }
 
-export function AulaHeader({ aula }: AulaHeaderProps) {
+function buildAulaLabel(aula: Aula) {
+  return `Aula: ${aula.subject || "Sem titulo"}`;
+}
+
+export function AulaHeader({
+  aula,
+  aulas,
+  selectedAulaId,
+  onSelectAula,
+  showClassFilter,
+}: AulaHeaderProps) {
   const now = new Date();
   const { user } = useAuth();
 
@@ -17,6 +39,7 @@ export function AulaHeader({ aula }: AulaHeaderProps) {
       const name = user.email.split("@")[0];
       return name.charAt(0).toUpperCase() + name.slice(1);
     }
+
     return "Professor";
   })();
 
@@ -26,22 +49,48 @@ export function AulaHeader({ aula }: AulaHeaderProps) {
         <div className="bg-slate-100 p-2 rounded-full">
           <ChalkboardTeacherIcon size={20} className="text-slate-600" />
         </div>
+
         <div>
           <p className="text-sm text-slate-500 font-medium">Prof. {teacherName}</p>
-          <h2 className="text-lg font-bold text-slate-800 uppercase tracking-tight">
-            Aula: {aula.subject || "Sem título"}
-          </h2>
+          {!showClassFilter && (
+            <h2 className="text-lg font-bold text-slate-800 uppercase tracking-tight">
+              Aula: {aula?.subject || "Sem titulo"}
+            </h2>
+          )}
         </div>
       </div>
 
-      <div className="text-left md:text-right">
-        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-          {format(now, "eeee, dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
-        </p>
-        <p className="text-xl font-black text-slate-700">
-          {format(now, "HH:mm")}
-        </p>
-      </div>
+      {showClassFilter ? (
+        <div className="w-full md:w-auto">
+          <Select
+            value={selectedAulaId || undefined}
+            onValueChange={onSelectAula}
+            disabled={!aulas.length}
+          >
+            <SelectTrigger className="w-full md:w-[360px] border-slate-200 text-slate-700">
+              <span className="flex items-center gap-2">
+                <BookOpenTextIcon size={16} className="text-slate-500" />
+                <SelectValue placeholder="Aula: selecione uma aula" />
+              </span>
+            </SelectTrigger>
+
+            <SelectContent>
+              {aulas.map((item) => (
+                <SelectItem key={item._id} value={item._id}>
+                  {buildAulaLabel(item)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      ) : (
+        <div className="text-left md:text-right">
+          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            {format(now, "eeee, dd 'de' MMMM 'de' yyyy", { locale: ptBR })}
+          </p>
+          <p className="text-xl font-black text-slate-700">{format(now, "HH:mm")}</p>
+        </div>
+      )}
     </div>
   );
 }

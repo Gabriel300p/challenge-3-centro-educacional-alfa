@@ -20,7 +20,7 @@ export interface Aula {
   students: {
     studentId: string;
     name: string;
-    status: "Presente" | "Ausente";
+    status: "Presente" | "Ausente" | "Atrasado";
     id: string;
   }[];
 }
