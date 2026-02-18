@@ -6,7 +6,9 @@ interface PresencaResumoProps {
 
 export function PresencaResumo({ aula }: PresencaResumoProps) {
   const totalStudents = aula.students.length;
-  const presentes = aula.students.filter(student => student.status === "Presente").length;
+  const presentes = aula.students.filter(
+    (student) => student.status === "Presente" || student.status === "Atrasado"
+  ).length;
   const porcentagem = totalStudents > 0 ? Math.round((presentes / totalStudents) * 100) : 0;
 
   return (

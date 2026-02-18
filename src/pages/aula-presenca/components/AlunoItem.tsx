@@ -2,7 +2,7 @@ import { CheckIcon, XIcon } from "@phosphor-icons/react";
 
 interface AlunoItemProps {
   name: string;
-  status: "Presente" | "Ausente";
+  status: "Presente" | "Ausente" | "Atrasado";
   onToggle: () => void;
 }
 
@@ -11,7 +11,7 @@ export function AlunoItem({
   status,
   onToggle,
 }: AlunoItemProps) {
-  const isPresent = status === "Presente";
+  const isPresent = status === "Presente" || status === "Atrasado";
 
   return (
     <div className="flex items-center justify-between p-4 border border-slate-100 rounded-xl hover:bg-slate-50 transition-colors">
@@ -31,6 +31,9 @@ export function AlunoItem({
           <p className="font-bold text-slate-700 text-sm">
             {name}
           </p>
+          {status === "Atrasado" && (
+            <p className="text-xs text-yellow-600 font-medium -mt-0.5">Atrasado</p>
+          )}
         </div>
       </div>
 

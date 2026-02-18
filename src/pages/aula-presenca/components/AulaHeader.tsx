@@ -2,6 +2,7 @@ import { ChalkboardTeacherIcon } from "@phosphor-icons/react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import type {Aula} from "../hooks/useAulaPresenca";
+import { useAuth } from "../../../providers/useAuth";
 
 interface AulaHeaderProps {
   aula: Aula;
@@ -9,6 +10,15 @@ interface AulaHeaderProps {
 
 export function AulaHeader({ aula }: AulaHeaderProps) {
   const now = new Date();
+  const { user } = useAuth();
+
+  const teacherName = (() => {
+    if (user?.email) {
+      const name = user.email.split("@")[0];
+      return name.charAt(0).toUpperCase() + name.slice(1);
+    }
+    return "Professor";
+  })();
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-4 rounded-xl shadow-sm border border-slate-100">
@@ -17,7 +27,7 @@ export function AulaHeader({ aula }: AulaHeaderProps) {
           <ChalkboardTeacherIcon size={20} className="text-slate-600" />
         </div>
         <div>
-          <p className="text-sm text-slate-500 font-medium">Prof. {"Alberto"}</p>
+          <p className="text-sm text-slate-500 font-medium">Prof. {teacherName}</p>
           <h2 className="text-lg font-bold text-slate-800 uppercase tracking-tight">
             Aula: {aula.subject || "Sem título"}
           </h2>

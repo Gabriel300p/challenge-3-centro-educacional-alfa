@@ -3,12 +3,13 @@ import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { CheckCircle, XCircle, CircleNotch, House } from "@phosphor-icons/react";
 import { useAuth } from "../../../providers/useAuth";
 import { Button } from "@/components/ui/button";
+import { recordCheckIn } from "../../aulas/services/attendance.service";
 
 export function ConfirmarPresenca() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, token: authToken } = useAuth();
   
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [message, setMessage] = useState("Processando sua presença...");
@@ -30,6 +31,12 @@ export function ConfirmarPresenca() {
     if (!attendanceId || !token) {
       setStatus("error");
       setMessage("Link de presença inválido ou incompleto.");
+      return;
+    }
+
+    if (!authToken) {
+      setStatus("error");
+      setMessage("Token de autenticação inválido. Por favor, faça o login novamente.");
       return;
     }
 
@@ -59,27 +66,12 @@ export function ConfirmarPresenca() {
 
         setMessage("Registrando presença...");
         
-        const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
-        
-        const response = await fetch(`${baseUrl}/attendance/confirm`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("authToken")}` 
-          },
-          body: JSON.stringify({
-            attendanceId,
-            tokenQRCode: token,
-            studentId: user?.id,
-            latitude: locationData?.latitude,
-            longitude: locationData?.longitude
-          }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || "Falha ao registrar presença.");
-        }
+        await recordCheckIn(
+          attendanceId,
+          token,
+          authToken,
+          locationData ?? undefined
+        );
 
         setStatus("success");
         setMessage("Presença confirmada com sucesso!");
@@ -96,7 +88,7 @@ export function ConfirmarPresenca() {
     };
 
     registrarPresenca();
-  }, [attendanceId, token, isAuthenticated, navigate, location, user]);
+  }, [attendanceId, token, isAuthenticated, navigate, location, user, authToken]);
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">

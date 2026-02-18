@@ -120,3 +120,33 @@ export async function deleteAttendance(id: string, token: string) {
 
   return true;
 }
+
+export async function recordCheckIn(
+  attendanceId: string,
+  tokenQRCode: string,
+  authToken: string,
+  locationData?: { latitude: number; longitude: number }
+) {
+  const response = await fetch(
+    `${API_URL}/api/attendance/${attendanceId}/checkin`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({
+        tokenQRCode,
+        latitude: locationData?.latitude,
+        longitude: locationData?.longitude,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Falha ao registrar presença.");
+  }
+
+  return response.json();
+}

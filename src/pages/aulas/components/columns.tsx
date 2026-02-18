@@ -114,7 +114,7 @@ export const columns: ColumnDef<Aula>[] = [
     size: 120,
     cell: ({ row }) => {
       const aulaStatus = row.original.status;
-      const showQrCode = aulaStatus === "em_andamento";
+      const showQrCode = aulaStatus === "em_andamento" || aulaStatus === "aguardando";
 
       return (
         <div className="flex items-center justify-center gap-1">

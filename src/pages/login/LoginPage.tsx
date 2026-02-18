@@ -3,34 +3,37 @@ import { buttonVariants } from "@/components/ui/button-variants";
 import { Input } from "@/components/ui/input";
 import { Eye, EyeOff, Lock, User } from "lucide-react";
 import { useState } from "react";
-import { useAuth } from "../../providers/useAuth"; 
-import { useNavigate } from "react-router-dom"; 
-import { toast } from "react-toastify"; 
+import { useAuth } from "../../providers/useAuth";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { login as loginService } from "../../services/auth.services"; 
+import { login as loginService } from "../../services/auth.services";
 
 export function LoginPage() {
-  const [email, setEmail] = useState(""); 
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { login } = useAuth(); 
-  const navigate = useNavigate(); 
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      
+
       const data = await loginService({ email, password });
-      
-     
+
+
       login(data.token);
 
+      const from = location.state?.from || "/posts";
+
       toast.success("Login realizado com sucesso!");
-      navigate("/posts");
+      navigate(from, { replace: true });
     } catch (error) {
       console.error("Erro no login:", error);
       if (error instanceof Error) {
@@ -63,7 +66,7 @@ export function LoginPage() {
                   <User className="h-5 w-5 text-slate-400" />
                 </div>
                 <Input
-                  id="email" 
+                  id="email"
                   type="email"
                   placeholder="Digite seu email"
                   value={email}
@@ -107,8 +110,8 @@ export function LoginPage() {
               </div>
             </div>
             <button
-              type="submit" 
-              disabled={loading} 
+              type="submit"
+              disabled={loading}
               className={buttonVariants({
                 variant: "default",
                 className: "w-full",

@@ -113,7 +113,7 @@ export function NovaAulaPage() {
         startTime: new Date(`${form.date}T${form.startTime}`),
         endTime: new Date(`${form.date}T${form.endTime}`),
         toleranceMinutes: Number(form.toleranceMinutes),
-        recurrence: form.recurrence,
+        recurrence: form.recurrence == "Sem recorrência" ? "Única" : form.recurrence,
         contentAborted: form.contentAborted,
         professorNotes: form.professorNotes,
         status: "aguardando",
