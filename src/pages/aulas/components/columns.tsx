@@ -9,6 +9,17 @@ import { QRCodeDialog } from "../../aula-presenca/components/QRCodeDialog";
 import { Link } from "react-router-dom";
 import { deleteAttendance } from "../services/attendance.service";
 
+function parseDateOnly(value: string) {
+  const normalized = value.includes("T") ? value.split("T")[0] : value;
+  const [year, month, day] = normalized.split("-").map(Number);
+
+  if (!year || !month || !day) {
+    return new Date(value);
+  }
+
+  return new Date(year, month - 1, day, 12, 0, 0, 0);
+}
+
 
 
 export const columns: ColumnDef<Aula>[] = [
@@ -74,7 +85,7 @@ export const columns: ColumnDef<Aula>[] = [
     cell: ({ row }) => {
       if (!row.original.date) return <div className="text-center">—</div>;
 
-      const date = new Date(row.original.date);
+      const date = parseDateOnly(row.original.date);
 
       return (
         <div className="text-slate-600 font-medium text-sm text-center">

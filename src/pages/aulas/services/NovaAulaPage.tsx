@@ -1,4 +1,11 @@
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  type ChangeEvent,
+  type FormEvent,
+  type InputHTMLAttributes,
+  type SelectHTMLAttributes,
+} from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Divider from "@/components/ui/divider";
@@ -9,7 +16,61 @@ import {
   XCircleIcon,
 } from "@phosphor-icons/react";
 
-export function Input({ label, required, ...props }: any) {
+function toDateInputValue(value?: string) {
+  if (!value) return "";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value.slice(0, 10);
+  }
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function toTimeInputValue(value?: string) {
+  if (!value) return "";
+
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value.slice(11, 16);
+  }
+
+  const hours = String(date.getHours()).padStart(2, "0");
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+
+  return `${hours}:${minutes}`;
+}
+
+function buildLocalDateTime(dateValue: string, timeValue: string) {
+  const [year, month, day] = dateValue.split("-").map(Number);
+  const [hours, minutes] = timeValue.split(":").map(Number);
+
+  return new Date(year, month - 1, day, hours, minutes, 0, 0);
+}
+
+type FormState = {
+  subject: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  toleranceMinutes: string;
+  recurrence: string;
+  contentAborted: string;
+  professorNotes: string;
+};
+
+type FormField = keyof FormState;
+
+interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
+  label: string;
+  required?: boolean;
+}
+
+export function Input({ label, required, ...props }: InputProps) {
   return (
     <div className="flex flex-col gap-1">
       <label className="text-sm font-medium text-slate-700">
@@ -26,7 +87,13 @@ export function Input({ label, required, ...props }: any) {
   );
 }
 
-export function Select({ label, options = [], required, ...props }: any) {
+interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, "className"> {
+  label: string;
+  options?: string[];
+  required?: boolean;
+}
+
+export function Select({ label, options = [], required, ...props }: SelectProps) {
   return (
     <div className="flex flex-col gap-1">
       <label className="text-sm font-medium text-slate-700">
@@ -60,7 +127,7 @@ export function NovaAulaPage() {
 
   const [loading, setLoading] = useState(false);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormState>({
     subject: "",
     date: "",
     startTime: "",
@@ -71,7 +138,7 @@ export function NovaAulaPage() {
     professorNotes: "",
   });
 
-  const handleChange = (field: string, value: string) => {
+  const handleChange = (field: FormField, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -84,13 +151,9 @@ export function NovaAulaPage() {
 
     setForm({
       subject: aula.subject || "",
-      date: aula.date ? aula.date.slice(0, 10) : "",
-      startTime: aula.startTime
-        ? aula.startTime.slice(11, 16)
-        : "",
-      endTime: aula.endTime
-        ? aula.endTime.slice(11, 16)
-        : "",
+      date: toDateInputValue(aula.startTime || aula.date),
+      startTime: toTimeInputValue(aula.startTime),
+      endTime: toTimeInputValue(aula.endTime),
       toleranceMinutes:
         aula.toleranceMinutes?.toString() || "",
       recurrence: aula.recurrence || "",
@@ -99,7 +162,7 @@ export function NovaAulaPage() {
     });
   }, [id, aulas]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!token || !user) return;
 
@@ -109,9 +172,9 @@ export function NovaAulaPage() {
       const payload = {
         subject: form.subject,
         teacherId: user.id,
-        date: new Date(form.date),
-        startTime: new Date(`${form.date}T${form.startTime}`),
-        endTime: new Date(`${form.date}T${form.endTime}`),
+        date: buildLocalDateTime(form.date, "12:00"),
+        startTime: buildLocalDateTime(form.date, form.startTime),
+        endTime: buildLocalDateTime(form.date, form.endTime),
         toleranceMinutes: Number(form.toleranceMinutes),
         recurrence: form.recurrence == "Sem recorrência" ? "Única" : form.recurrence,
         contentAborted: form.contentAborted,
@@ -194,7 +257,7 @@ export function NovaAulaPage() {
               label="Título da aula"
               required
               value={form.subject}
-              onChange={(e: any) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleChange("subject", e.target.value)
               }
             />
@@ -204,7 +267,7 @@ export function NovaAulaPage() {
               required
               type="number"
               value={form.toleranceMinutes}
-              onChange={(e: any) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleChange(
                   "toleranceMinutes",
                   e.target.value
@@ -219,7 +282,7 @@ export function NovaAulaPage() {
               required
               type="date"
               value={form.date}
-              onChange={(e: any) =>
+              onChange={(e: ChangeEvent<HTMLInputElement>) =>
                 handleChange("date", e.target.value)
               }
             />
@@ -233,7 +296,7 @@ export function NovaAulaPage() {
                 "Mensal",
               ]}
               value={form.recurrence}
-              onChange={(e: any) =>
+              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                 handleChange("recurrence", e.target.value)
               }
             />

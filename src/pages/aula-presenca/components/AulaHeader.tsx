@@ -54,7 +54,7 @@ export function AulaHeader({
           <p className="text-sm text-slate-500 font-medium">Prof. {teacherName}</p>
           {!showClassFilter && (
             <h2 className="text-lg font-bold text-slate-800 uppercase tracking-tight">
-              Aula: {aula?.subject || "Sem titulo"}
+              Aula: {aula?.subject || "Sem aula no momento"}
             </h2>
           )}
         </div>

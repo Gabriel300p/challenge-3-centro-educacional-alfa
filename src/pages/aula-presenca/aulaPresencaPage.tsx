@@ -6,11 +6,40 @@ import { StatusCard } from "./components/StatusCard";
 import { PresencaResumo } from "./components/PresencaResumo";
 import { AulaToolbar } from "./components/AulaToolbar";
 import { ListaAlunos } from "./components/ListaAlunos";
+import { EstadoAlunoCard, type EstadoAluno } from "./components/EstadoAlunoCard";
 import { useAulaPresenca, type Aula } from "../aula-presenca/hooks/useAulaPresenca";
 import { useAuth } from "../../providers/useAuth";
 import { updateAttendanceStatus, updateStudentStatus } from "../aulas/services/attendance.service";
 
 const SELECTED_AULA_STORAGE_KEY = "inicio_selected_aula_id";
+
+function normalizeAulaStatus(status?: string) {
+  const normalized = (status ?? "")
+    .toLowerCase()
+    .trim()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[\s-]+/g, "_");
+
+  if (
+    normalized === "em_andamento" ||
+    normalized === "emandamento" ||
+    normalized === "iniciada" ||
+    normalized === "iniciado"
+  ) {
+    return "em_andamento";
+  }
+
+  if (normalized === "aguardando") {
+    return "aguardando";
+  }
+
+  if (normalized === "finalizada" || normalized === "finalizado") {
+    return "finalizada";
+  }
+
+  return "desconhecido";
+}
 
 function getAulaTimestamp(aula: Aula) {
   const dateValue = new Date(aula.startTime || aula.date).getTime();
@@ -128,10 +157,31 @@ export function AulaPresencaPage() {
     }) || [];
 
   const isProfessor = user?.role === "professor";
+  const estadoAluno = useMemo<{ state: EstadoAluno; aula?: Aula }>(() => {
+    const aulaIniciada = aulasOrdenadas.find((aula) => {
+      const status = normalizeAulaStatus(aula.status);
+      return status === "em_andamento" || (Boolean(aula.actualStartTime) && status !== "finalizada");
+    });
+
+    if (aulaIniciada) {
+      return { state: "aula_iniciada", aula: aulaIniciada };
+    }
+
+    const aulaAguardandoProfessor = aulasOrdenadas.find(
+      (aula) => normalizeAulaStatus(aula.status) === "aguardando"
+    );
+
+    if (aulaAguardandoProfessor) {
+      return { state: "aguardando_professor", aula: aulaAguardandoProfessor };
+    }
+
+    return { state: "sem_aula", aula: undefined };
+  }, [aulasOrdenadas]);
+  const aulaNoHeader = isProfessor ? aulaSelecionada : estadoAluno.aula;
 
   const handleStart = async (id: string) => {
     try {
-      if (!aulaSelecionada || bloqueiaEdicao || aulaSelecionada.status === "finalizada") {
+      if (!isProfessor || !aulaSelecionada || bloqueiaEdicao || aulaSelecionada.status === "finalizada") {
         return;
       }
 
@@ -146,17 +196,20 @@ export function AulaPresencaPage() {
 
   const handleTogglePresenca = async (attendanceId: string, studentId: string) => {
     try {
-      if (!aulaSelecionada || bloqueiaEdicao) {
+      if (!isProfessor || !aulaSelecionada || bloqueiaEdicao) {
         return;
       }
 
-      const updatedStudents = aulaSelecionada.students.map((aluno) => {
+      const updatedStudents: Aula["students"] = aulaSelecionada.students.map((aluno) => {
         if (aluno.studentId === studentId) {
           const isCurrentlyPresent = aluno.status === "Presente" || aluno.status === "Atrasado";
+          const nextStatus: Aula["students"][number]["status"] = isCurrentlyPresent
+            ? "Ausente"
+            : "Presente";
 
           return {
             ...aluno,
-            status: isCurrentlyPresent ? "Ausente" : "Presente",
+            status: nextStatus,
           };
         }
 
@@ -177,14 +230,16 @@ export function AulaPresencaPage() {
   return (
     <div className="mx-auto p-6 space-y-6 bg-[#F8FAFC] min-h-screen">
       <AulaHeader
-        aula={aulaSelecionada}
+        aula={aulaNoHeader}
         aulas={aulasOrdenadas}
         selectedAulaId={selectedAulaId}
         onSelectAula={setSelectedAulaId}
         showClassFilter={isProfessor}
       />
 
-      {!aulaSelecionada ? (
+      {!isProfessor ? (
+        <EstadoAlunoCard state={estadoAluno.state} aula={estadoAluno.aula} />
+      ) : !aulaSelecionada ? (
         <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 space-y-4 text-center">
           <h2 className="text-xl font-bold text-slate-800">Nenhuma aula encontrada</h2>
           <p className="text-slate-500">Cadastre uma aula para iniciar o controle de presenca.</p>

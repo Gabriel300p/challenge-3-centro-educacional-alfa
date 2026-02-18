@@ -79,7 +79,7 @@ export async function updateAttendanceStatus(
 
 export async function updateStudentStatus(
   attendanceId: string,
-  updatedStudents: any[]
+  updatedStudents: Aula["students"]
 ) {
   const token = localStorage.getItem("authToken");
 
